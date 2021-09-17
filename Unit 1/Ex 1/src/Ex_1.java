@@ -17,7 +17,7 @@ public class Ex_1 {
 
         while (numLetters < 10 && !exit) {
             //read one
-            System.out.println("Introduce una letra. Pulsa 0 si quieres salir: ");
+            System.out.println("Input number: For exit press 0 : ");
             Scanner sc = new Scanner(System.in);
             char auxLetter = sc.next().charAt(0);
             System.out.println(" ");
@@ -40,7 +40,7 @@ public class Ex_1 {
         }
 
         if (numLetters > 50)
-            System.out.println("El cadena de caracteres esta llena");
+            System.out.println("Input is full of characters");
 
         //for every char in string
         for (int i = 0; i < numLetters && letters.toCharArray()[i] != '0'; i++) {
@@ -52,10 +52,10 @@ public class Ex_1 {
         }
 
         //Write the result
-        System.out.println("el Char menor es : " + minLetters);
+        System.out.println("min character is : " + minLetters);
 
-        System.out.println("el Char mayor es : " + maxLetters);
-        System.out.println("Hay " + numUpperLetters + " letras mayusculas ");
+        System.out.println("max character is : " + maxLetters);
+        System.out.println("Has " + numUpperLetters + " Upper letters ");
 
     }
 
