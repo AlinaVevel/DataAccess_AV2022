@@ -1,9 +1,39 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Hall {
     protected String name;
-    protected Art art;
+    protected List<ArtWork> artWork;
+    protected Museum museum;
 
-    public void hasArt(Art art){
-        this.art = art;
+    public Museum getMuseum() {
+        return museum;
+    }
+
+    public Hall(String name){
+        this.name = name;
+    }
+
+    public void isInMuseum(Museum museum){
+        this.museum = museum;
+    }
+
+    public void setMuseum(Museum museum) {
+        this.museum = museum;
+    }
+
+    public Hall(){
+        artWork = new ArrayList<>();
+    }
+
+    public List<ArtWork> getArtWork() {
+        return artWork;
+    }
+
+    public void nameArte(ArtWork work){
+        work.isInHall(this);
+        artWork.add(work);
+
     }
 
     public String getName() {
@@ -14,11 +44,5 @@ public class Hall {
         this.name = name;
     }
 
-    public Art getArt() {
-        return art;
-    }
 
-    public void setArt(Art art) {
-        this.art = art;
-    }
 }

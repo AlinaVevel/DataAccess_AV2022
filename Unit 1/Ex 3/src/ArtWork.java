@@ -1,6 +1,16 @@
-public class Art {
+import java.util.Scanner;
+
+public class ArtWork {
     protected String title;
     protected Author author;
+    protected Hall hall;
+    protected Museum museum;
+
+
+
+    public void isInHall(Hall hall) {
+        this.hall = hall;
+    }
 
     public String getTitle() {
         return title;

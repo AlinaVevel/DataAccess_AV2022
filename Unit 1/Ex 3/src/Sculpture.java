@@ -1,4 +1,4 @@
-public class Sculpture extends Art{
+public class Sculpture extends ArtWork {
     protected Material material;
     protected Style place;
 

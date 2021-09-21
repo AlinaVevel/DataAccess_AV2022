@@ -1,13 +1,26 @@
+import java.util.ArrayList;
+import java.util.List;
+
 public class Museum {
     protected String name;
     protected String address;
     protected String city;
     protected String country;
-    protected Hall ubication;
+    protected List<Hall> listOfHall;
+
+    public List<Hall> getListOfHall() {
+        return listOfHall;
+    }
 
     public Museum(){
 
-        ubication = new Hall();
+        listOfHall = new ArrayList<>();
+    }
+
+    public void addHallAtMuseum(Hall hall){
+        hall.isInMuseum(this);
+        listOfHall.add(hall);
+
     }
 
     public String getName() {
@@ -42,11 +55,5 @@ public class Museum {
         this.country = country;
     }
 
-    public Hall getHall() {
-        return ubication;
-    }
 
-    public void setHall(Hall hall) {
-        ubication = hall;
-    }
 }

@@ -1,6 +1,8 @@
-public class Painting extends Art {
+public class Painting extends ArtWork {
     protected TypeOfPainting type;
     protected String format;
+
+
 
     public TypeOfPainting getType() {
         return type;
