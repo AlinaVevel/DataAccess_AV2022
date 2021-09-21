@@ -1,22 +1,22 @@
 public class Sculpture extends Art{
-    protected String material;
-    protected String place;
+    protected Material material;
+    protected Style place;
 
 
 
-    public String getMaterial() {
+    public Material getMaterial() {
         return material;
     }
 
-    public void setMaterial(String material) {
+    public void setMaterial(Material material) {
         this.material = material;
     }
 
-    public String getPlace() {
+    public Style getPlace() {
         return place;
     }
 
-    public void setPlace(String place) {
+    public void setPlace(Style place) {
         this.place = place;
     }
 }

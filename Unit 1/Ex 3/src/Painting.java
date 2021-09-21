@@ -1,12 +1,12 @@
 public class Painting extends Art {
-    protected String type;
+    protected TypeOfPainting type;
     protected String format;
 
-    public String getType() {
+    public TypeOfPainting getType() {
         return type;
     }
 
-    public void setType(String type) {
+    public void setType(TypeOfPainting type) {
         this.type = type;
     }
 

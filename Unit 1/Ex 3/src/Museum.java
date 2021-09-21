@@ -3,10 +3,11 @@ public class Museum {
     protected String address;
     protected String city;
     protected String country;
-    protected Hall hall;
+    protected Hall ubication;
 
     public Museum(){
-        hall = new Hall();
+
+        ubication = new Hall();
     }
 
     public String getName() {
@@ -42,10 +43,10 @@ public class Museum {
     }
 
     public Hall getHall() {
-        return hall;
+        return ubication;
     }
 
     public void setHall(Hall hall) {
-        this.hall = hall;
+        ubication = hall;
     }
 }
