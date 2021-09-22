@@ -2,6 +2,9 @@ public class Painting extends ArtWork {
     protected TypeOfPainting type;
     protected String format;
 
+    public Painting(String title, Author author) {
+        super(title, author);
+    }
 
 
     public TypeOfPainting getType() {

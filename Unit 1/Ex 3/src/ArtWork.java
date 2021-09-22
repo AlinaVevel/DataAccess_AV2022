@@ -6,8 +6,14 @@ public class ArtWork {
     protected Hall hall;
     protected Museum museum;
 
+    public ArtWork(String title, Author author){
 
+        this.title = title;
+        author.setNameForArtWork(this);
+    }
+    public void setNameAutor(String name, Author author){
 
+    }
     public void isInHall(Hall hall) {
         this.hall = hall;
     }

@@ -11,20 +11,18 @@ public class Hall {
     }
 
     public Hall(String name){
+
         this.name = name;
+        artWork = new ArrayList<>();
     }
 
-    public void isInMuseum(Museum museum){
-        this.museum = museum;
-    }
+
 
     public void setMuseum(Museum museum) {
         this.museum = museum;
     }
 
-    public Hall(){
-        artWork = new ArrayList<>();
-    }
+
 
     public List<ArtWork> getArtWork() {
         return artWork;
@@ -45,4 +43,7 @@ public class Hall {
     }
 
 
+    public void isInMuseum(Museum museum) {
+        this.museum = museum;
+    }
 }

@@ -2,6 +2,9 @@ public class Sculpture extends ArtWork {
     protected Material material;
     protected Style place;
 
+    public Sculpture(String title, Author author) {
+        super(title, author);
+    }
 
 
     public Material getMaterial() {

@@ -4,7 +4,7 @@ import java.util.List;
 public class Author {
     protected String name;
     protected String nationality;
-    protected List<ArtWork> listOfArtWorks;
+    protected ArtWork work;
 
     public Author(String name, String nationality){
         this.nationality = nationality;;
@@ -15,10 +15,10 @@ public class Author {
         listOfArtWorks = new ArrayList<>();
     }
 
-    public void addArt(ArtWork work){
-        work.setAuthor(this);
-        listOfArtWorks.add(work);
 
+
+    public void setNameForArtWork (ArtWork work){
+        this.work = work;
     }
 
     public String getName() {
@@ -37,11 +37,5 @@ public class Author {
         this.nationality = nationality;
     }
 
-    public ArrayList<ArtWork> getArt() {
-        return (ArrayList<ArtWork>) listOfArtWorks;
-    }
 
-    public void setArt(ArrayList<ArtWork> listOfArtWorks) {
-        this.listOfArtWorks = listOfArtWorks;
-    }
 }

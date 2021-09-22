@@ -12,8 +12,13 @@ public class Museum {
         return listOfHall;
     }
 
-    public Museum(){
 
+
+    public Museum(String name, String address, String city, String country){
+        this.name = name;
+        this.address = address;
+        this.city = city;
+        this.country = country;
         listOfHall = new ArrayList<>();
     }
 
