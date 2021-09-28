@@ -33,11 +33,11 @@ public class Data {
             throw new Exception();
         }
 
-        if (isALeadYear(year) && day != 29) {
+        if (isALeadYear(year) && day > 29) {
             throw new Exception();
         }
 
-        if(!isALeadYear(year) && day != 28){
+        if(!isALeadYear(year) && day > 28){
             throw new Exception();
         }
 
