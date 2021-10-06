@@ -1,0 +1,24 @@
+1 hello
+2 my
+3 name
+4 is
+5 Alina
+6 I
+7 want
+8 to learn
+9 Java
+10 and
+11 to
+12 be
+13 a
+14 Mobile Developer
+15 and
+16 this
+17 is 
+18 adding
+19 lines
+20 I
+21 have
+22 check
+23 while loop
+24 for input file
