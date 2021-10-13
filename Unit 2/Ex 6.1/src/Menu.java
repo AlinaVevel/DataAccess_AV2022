@@ -11,9 +11,8 @@ public class Menu implements Colors {
         System.out.println("1. Add Users");
         System.out.println("2. Print all users");
         System.out.println("3. Search for User");
-        System.out.println("4. Save to odt file");
-        System.out.println("5. Work with save list of users (Adding new users to existing users, searching, rinting info)");
-        System.out.println(ANSI_RED + "6. Exit" + ANSI_RESET);
+        System.out.println("4. Work with save list of users (Adding new users to existing users, searching, rinting info)");
+        System.out.println(ANSI_RED + "5. Exit" + ANSI_RESET);
         System.out.println("\033[H\033[2J");
     }
 
@@ -21,12 +20,16 @@ public class Menu implements Colors {
 
         String answer;
         do {
+
             lunchMenu();
             answer = scanner.nextLine();
+
             switch (answer) {
                 case "1":
                     list.addUsers();
                     System.out.println("\033[H\033[2J");
+                    System.out.println("Save file");
+                    saveToFile();
                     break;
                 case "2":
                     list.allInfo();
@@ -36,11 +39,8 @@ public class Menu implements Colors {
                     list.searchForUser();
                     System.out.println("\033[H\033[2J");
                     break;
+
                 case "4":
-                    saveToFile();
-                    System.out.println("\033[H\033[2J");
-                    break;
-                case "5":
                     readFromFile();
                     System.out.println("\033[H\033[2J");
                     break;
@@ -49,7 +49,7 @@ public class Menu implements Colors {
                 default:
                     break;
             }
-        } while (!answer.equals("6"));
+        } while (!answer.equals("5"));
 
 
     }
