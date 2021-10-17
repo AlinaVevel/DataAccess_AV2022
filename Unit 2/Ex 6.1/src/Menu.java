@@ -11,25 +11,22 @@ public class Menu implements Colors {
         System.out.println("1. Add Users");
         System.out.println("2. Print all users");
         System.out.println("3. Search for User");
-        System.out.println("4. Work with save list of users (Adding new users to existing users, searching, rinting info)");
-        System.out.println(ANSI_RED + "5. Exit" + ANSI_RESET);
+
+        System.out.println(ANSI_RED + "4. Exit" + ANSI_RESET);
         System.out.println("\033[H\033[2J");
     }
 
     public void choiceMenu() {
 
+        readFromFile();
         String answer;
         do {
-
             lunchMenu();
             answer = scanner.nextLine();
-
             switch (answer) {
                 case "1":
                     list.addUsers();
                     System.out.println("\033[H\033[2J");
-                    System.out.println("Save file");
-                    saveToFile();
                     break;
                 case "2":
                     list.allInfo();
@@ -40,80 +37,49 @@ public class Menu implements Colors {
                     System.out.println("\033[H\033[2J");
                     break;
 
-                case "4":
-                    readFromFile();
-                    System.out.println("\033[H\033[2J");
-                    break;
 
 
                 default:
                     break;
             }
-        } while (!answer.equals("5"));
+        } while (!answer.equals("4"));
+        saveToFile();
 
 
     }
 
     public void saveToFile() {
-        System.out.println("Input file");
-        String answer = scanner.nextLine();
+        String answer = "userList.obj";
         File file = new File(answer);
         if (file.exists()) {
-            System.out.println("File already exist, do you want to rewrite it?" + ANSI_CYAN + " Y - yes, N - for create new file" + ANSI_RESET);
-            System.out.println("\033[H\033[2J");
-            answer = scanner.nextLine();
-            answer.toLowerCase();
-            if (answer.equals("y")) {
-                try {
-                    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
-                    out.writeObject(list);
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            } else {
-
-                try {
-                    ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
-                    out.writeObject(list);
-                    out.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        } else {
-
+            ObjectOutputStream out = null;
             try {
-                ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream(file));
+                out = new ObjectOutputStream(new FileOutputStream(file));
                 out.writeObject(list);
                 out.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
+
+
         }
     }
 
     public void readFromFile() {
-        System.out.println("Input file");
-        String answer = scanner.nextLine();
+        String answer = "userList.obj";
+
         File file = new File(answer);
-        while (!file.exists()) {
-            System.out.println("File dont exist");
-            answer = scanner.nextLine();
-            file = new File(answer);
-        }
+
         try {
             ObjectInputStream in = new ObjectInputStream(new FileInputStream(file));
             list = (ListOfUsers) in.readObject();
-            System.out.println("Now you will be working with this file");
-            choiceMenu();
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
+
+        } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
     }
+
 
 
 }
