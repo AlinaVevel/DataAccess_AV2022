@@ -36,12 +36,14 @@ public class MyHandler extends DefaultHandler {
                 bln = true;
                 break;
 
-            case "email":
-                boc = true;
-                break;
             case "phone":
                 bop = true;
                 break;
+
+            case "email":
+                boc = true;
+                break;
+
         }
     }
 
@@ -65,7 +67,7 @@ public class MyHandler extends DefaultHandler {
 
         if (bop) {
             user.setTel(new String(ch, start, length));
-            boc = false;
+            bop = false;
         }
     }
 

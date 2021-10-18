@@ -87,24 +87,7 @@ public class ListOfUsers implements Serializable, Colors {
         }
     }
 
-    public void fromObjectToXML() {
 
-
-        try {
-            XMLEncoder encoder = new XMLEncoder(new BufferedOutputStream(new FileOutputStream("userList.xml")));
-
-            for(int i = 0; i < userList.size(); i++){
-                encoder.writeObject(userList.get(i).getName());
-                encoder.writeObject(userList.get(i).getSureName());
-                encoder.writeObject(userList.get(i).geteMail());
-                encoder.writeObject(userList.get(i).getTel());
-            }
-            encoder.flush();
-            encoder.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
-    }
 
     public void writeXMLFile(){
         DocumentBuilderFactory dFactory = DocumentBuilderFactory.newInstance();
@@ -147,7 +130,10 @@ public class ListOfUsers implements Serializable, Colors {
 
                 DOMSource source =  new DOMSource(doc);
                 try {
-                    FileWriter fos = new FileWriter("userList.xml");
+                    Scanner scanner = new Scanner(System.in);
+                    System.out.println("Input name o xml file");
+                    String name = scanner.nextLine();
+                    FileWriter fos = new FileWriter(name);
                     StreamResult result = new StreamResult(fos);
                     try {
                         aTransformer.transform(source, result);

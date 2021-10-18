@@ -7,6 +7,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -34,7 +35,9 @@ public class MyRunner {
         public List<User> parseUsers() {
 
             MyHandler handler = new MyHandler();
-            String fileName = "userList.xml";
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Input name of the file");
+            String fileName = scanner.nextLine();
             File xmlDocument = Paths.get(fileName).toFile();
 
             try {

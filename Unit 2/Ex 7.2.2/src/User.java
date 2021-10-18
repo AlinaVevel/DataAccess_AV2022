@@ -64,6 +64,7 @@ public class User implements Serializable,Colors {
             System.out.println(ANSI_CYAN + "The name is " + ANSI_RESET + name);
             System.out.println(ANSI_CYAN + "The surname is " + ANSI_RESET + sureName);
         }
+        System.out.println("");
 
     }
 
