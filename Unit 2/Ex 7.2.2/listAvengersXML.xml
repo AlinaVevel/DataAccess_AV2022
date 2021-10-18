@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no"?>
+<userinfo>
+    <user>
+        <name>Toni</name>
+        <surname>Stark</surname>
+        <email>toniStark@avengers.com</email>
+        <phone>+923902832</phone>
+    </user>
+    <user>
+        <name>Tor</name>
+        <surname>Odinson</surname>
+        <email>torOdindon@avengers.com</email>
+        <phone>+109282903820</phone>
+    </user>
+    <user>
+        <name>Natasha</name>
+        <surname>Romanof</surname>
+        <email>natashaRomanof@avengers.com</email>
+        <phone>+19830293323</phone>
+    </user>
+    <user>
+        <name>Steve</name>
+        <surname>Rogers</surname>
+        <email>null</email>
+        <phone>null</phone>
+    </user>
+</userinfo>
