@@ -27,11 +27,13 @@ public class App
             Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/VTInstitute", "postgres", "1101739");
 
             PreparedStatement pr = conn.prepareStatement(SQL_CREATE);
-            conn.prepareStatement(SQL_UPDATE);
+            PreparedStatement prs = conn.prepareStatement(SQL_UPDATE);
 
 
             pr.executeUpdate();
+            prs.executeUpdate();
             pr.close();
+            prs.close();
             conn.close();
 
         } catch (SQLException e) {
