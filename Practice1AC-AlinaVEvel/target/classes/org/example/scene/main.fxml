@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="432.0" prefWidth="676.0" xmlns="http://javafx.com/javafx/11.0.2" xmlns:fx="http://javafx.com/fxml/1" fx:controller="org.example.scene.MainControllerStudents">
+   <children>
+      <TabPane layoutX="1.0" prefHeight="432.0" prefWidth="676.0" tabClosingPolicy="UNAVAILABLE">
+        <tabs>
+          <Tab text="Students">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="388.0" prefWidth="597.0">
+                     <children>
+                        <Label graphicTextGap="6.0" layoutX="60.0" layoutY="65.0" text="First name:">
+                           <font>
+                              <Font name="Segoe UI" size="17.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="60.0" layoutY="107.0" text="Last name:">
+                           <font>
+                              <Font name="Segoe UI" size="17.0" />
+                           </font></Label>
+                        <Label layoutX="60.0" layoutY="147.0" text="ID Card:">
+                           <font>
+                              <Font name="Segoe UI" size="17.0" />
+                           </font></Label>
+                        <Label layoutX="60.0" layoutY="188.0" text="E-Mail:">
+                           <font>
+                              <Font name="Segoe UI" size="17.0" />
+                           </font></Label>
+                        <Label layoutX="60.0" layoutY="225.0" text="Phone:">
+                           <font>
+                              <Font name="Segoe UI" size="17.0" />
+                           </font></Label>
+                        <TextField id="inputFirstName" fx:id="inputFirstName" layoutX="175.0" layoutY="64.0" prefHeight="25.0" prefWidth="260.0" />
+                        <TextField id="inputLastName" fx:id="inputLastName" layoutX="175.0" layoutY="106.0" prefHeight="25.0" prefWidth="260.0" />
+                        <TextField id="iputIdCard" fx:id="inputIdCard" layoutX="175.0" layoutY="146.0" prefHeight="25.0" prefWidth="260.0" />
+                        <TextField id="inputEmail" fx:id="inputEmail" layoutX="175.0" layoutY="187.0" prefHeight="25.0" prefWidth="260.0" />
+                        <TextField id="inputPhone" fx:id="inputPhone" layoutX="175.0" layoutY="224.0" prefHeight="25.0" prefWidth="260.0" />
+                        <Button id="registrationB" fx:id="registrationB" layoutX="251.0" layoutY="291.0" mnemonicParsing="false" onAction="#initialize" prefHeight="25.0" prefWidth="109.0" text="Add" />
+                        <Label id="errorLabel" fx:id="errorText" layoutX="76.0" layoutY="328.0" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+          <Tab text="Enrollments">
+            <content>
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                     <children>
+                        <ChoiceBox fx:id="choiceStudent" layoutX="242.0" layoutY="107.0" prefHeight="25.0" prefWidth="227.0" />
+                        <ChoiceBox fx:id="choiceCourse" layoutX="242.0" layoutY="168.0" prefHeight="25.0" prefWidth="228.0" />
+                        <Label layoutX="88.0" layoutY="111.0" text="Student">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Label layoutX="88.0" layoutY="172.0" text="Course">
+                           <font>
+                              <Font size="14.0" />
+                           </font>
+                        </Label>
+                        <Button id="enrollButton" fx:id="enrollButton" layoutX="286.0" layoutY="260.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="106.0" text="Enroll" />
+                     </children></AnchorPane>
+            </content>
+          </Tab>
+            <Tab text="Reports">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+            <Tab text="Utilities">
+               <content>
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" />
+               </content>
+            </Tab>
+        </tabs>
+      </TabPane>
+   </children>
+</AnchorPane>
