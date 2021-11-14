@@ -1,0 +1,20 @@
+CREATE OR REPLACE FUNCTION public.ifuserexist(
+	ids character varying)
+    RETURNS integer
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+
+        BEGIN
+
+      		 if exists(select idcard from students where idcard like idS) then
+	  			 return -1;
+	   		else
+	   			return 0;
+        	end if;
+
+
+        END;
+
+$BODY$;

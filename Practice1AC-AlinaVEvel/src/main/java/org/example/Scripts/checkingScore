@@ -1,0 +1,25 @@
+
+CREATE OR REPLACE FUNCTION public.studenscore(
+	enrollmentidstudent character varying)
+    RETURNS integer
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+DECLARE
+myenrollid enrollment;
+resultF integer;
+BEGIN
+	FOR myenrollid in (SELECT * from enrollment where student like enrollmentIdStudent)
+	LOOP
+		IF EXISTS (SELECT * FROM scores WHERE score < 5 AND enrollmentid = myenrollid.code) THEN
+			resultF =  -1;
+		ELSE
+			resultF =  0;
+		END IF;
+
+
+	END LOOP;
+	return resultF;
+END;
+$BODY$;

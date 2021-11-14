@@ -6,10 +6,9 @@ import org.example.SqlConnector;
 import org.example.entity.Course;
 import org.example.entity.Student;
 
-import java.awt.*;
-import java.sql.Connection;
+import java.util.ArrayList;
 
-
+// class for inflate java fx
 public class MainControllerStudents {
 
     SqlConnector connector = SqlConnector.getInstance();
@@ -35,7 +34,7 @@ public class MainControllerStudents {
     @FXML
     TextField inputPhone;
 
-    private MainSceneContract mainSceneContract;
+
 
     @FXML
     ChoiceBox choiceStudent;
@@ -43,12 +42,25 @@ public class MainControllerStudents {
     @FXML
     ChoiceBox choiceCourse;
 
+    @FXML
+    ChoiceBox report_student_id;
 
-    Connection conn;
+    @FXML
+    Button enrollButton;
+
+    @FXML
+    TextArea textArea;
+
+    @FXML
+    Button printButton;
+
+
+
 
     @FXML
     void initialize() {
         initChoiceBoxes();
+        initChoiceBoxReport();
         registrationB.setOnAction(
                 actionEvent -> {
 
@@ -62,7 +74,7 @@ public class MainControllerStudents {
 
                         AlterDialogError("Can not add student", "Only phone can be empty");
                     }
-                    else if (connector.ifExist(uuid)){
+                    else if (connector.ifStudentExists(uuid) == -1){
 
                         AlterDialogError("Can not add student", "User exist");
                     }
@@ -76,24 +88,53 @@ public class MainControllerStudents {
 
                         );
 
-                        if (mainSceneContract != null) {
-                            mainSceneContract.onRegistration(student);
+                        if (student != null) {
+                            connector.insertStudent(student);
                             inputIdCard.clear();
                             inputFirstName.clear();
                             inputLastName.clear();
                             inputEmail.clear();
                             inputPhone.clear();
+                            choiceStudent.getItems().clear();
+                            choiceCourse.getItems().clear();
+                            initChoiceBoxes();
+
 
 
                         }
                     }
                 }
         );
+        enrollButton.setOnAction(
+                actionEvent -> {
+                    String idStudent = (String) choiceStudent.getValue();
+                    String nameCourse = (String) choiceCourse.getValue();
+                    int idCourse = connector.getIdCourse(nameCourse);
+                    if(connector.checkStudentForenrollment(idStudent) == -1){
+                        AlterDialogError("Error", "Student cann't enroll in this course, because he has pending subjects");
+                    }
+                    else if(connector.checkStudentInEnrollment(idStudent, idCourse) == -1){
+                        AlterDialogError("Error", "Student allredy finished this course");
+                    }
+                    else{
+                        connector.inserEnrollment(idStudent, idCourse);
+                    }
+
+                }
+        );
+        printButton.setOnAction(
+                actionEvent ->{
+                    ArrayList<String> values = connector.studentsReport("123456789A");
+                    String allValues = "";
+                    for (String s:values) {
+                        allValues = allValues + " " + s + "\n";
+                    }
+                    textArea.setText(allValues);
+                }
+        );
     }
 
-    public void setMainSceneContract(MainSceneContract mainSceneContract) {
-        this.mainSceneContract = mainSceneContract;
-    }
+
 
     public void AlterDialogError(String canntDoIt, String why){
         Alert alert = new Alert(Alert.AlertType.ERROR);
@@ -110,13 +151,24 @@ public class MainControllerStudents {
 
         for (Student student : connector.getStudents()) {
             choiceStudent.getItems().add(student.getId());
-
-
+            //choiceStudent.getItems().set(0, student.getId());
         }
+
 
         for (Course course : connector.getCourses()) {
             choiceCourse.getItems().add(course.getName());
         }
 
+
+
     }
+
+    private void initChoiceBoxReport(){
+        for (Student student : connector.getStudents()) {
+            report_student_id.getItems().add(student.getId());
+            //choiceStudent.getItems().set(0, student.getId());
+        }
+    }
+
+
 }

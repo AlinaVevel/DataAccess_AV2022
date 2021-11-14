@@ -1,0 +1,20 @@
+CREATE OR REPLACE FUNCTION public.studentenrollsamecourse(
+	idstudent character varying,
+	idcourse integer)
+    RETURNS integer
+    LANGUAGE 'plpgsql'
+    COST 100
+    VOLATILE PARALLEL UNSAFE
+AS $BODY$
+ BEGIN
+
+      		 if exists(select course from enrollment where idStudent like student AND course = idCourse) then
+	  			 return -1;
+	   		else
+	   			return 0;
+        	end if;
+
+
+        END;
+
+$BODY$;

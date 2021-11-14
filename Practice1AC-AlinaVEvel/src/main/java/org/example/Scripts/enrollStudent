@@ -1,0 +1,18 @@
+CREATE OR REPLACE PROCEDURE public.enrollstudent(
+	IN idstudent character varying,
+	IN idcourse integer)
+LANGUAGE 'plpgsql'
+AS $BODY$
+DECLARE
+codeEroll INTEGER;
+mysubject subjects;
+BEGIN
+	INSERT INTO enrollment(code,student, course) VALUES (default,idStudent, idCourse)
+	returning "code" into codeEroll;
+	FOR mysubject IN (SELECT * from subjects where course_id = idCourse)
+	LOOP
+		INSERT INTO scores(enrollmentid, subjectid,score) VALUES(codeEroll, mysubject.code, 0);
+	END LOOP;
+
+END;
+$BODY$;

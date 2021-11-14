@@ -1,5 +1,6 @@
 package org.example.entity;
 
+
 public class Course {
     private int idCourse;
     private String name;

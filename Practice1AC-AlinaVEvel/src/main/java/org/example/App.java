@@ -33,10 +33,6 @@ public class App extends Application
         stage.show();
 
 
-        MainControllerStudents mainController = loader.getController();
-        mainController.setMainSceneContract( student -> {
-            connector.insertStudent(student);
-        });
 
     }
 }
