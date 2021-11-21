@@ -1,12 +1,18 @@
 package org.example.entity;
 
-
+/**
+ * Class student with attributes <b>id</b>, <b>name</b>, <b>lastname</b>, <b>email</b>, <b>number</b>
+ * @autor Alina Vevel
+ *
+ */
 public class Student {
     private String id;
     private String name;
     private String lastName;
     private String email;
     private String number;
+
+
 
     public Student(String id, String name, String lastName, String email, String number) {
         this.id = id;
@@ -15,6 +21,7 @@ public class Student {
         this.email = email;
         this.number = number;
     }
+    public Student(){}
 
     public String getId() {
         return id;
@@ -34,6 +41,26 @@ public class Student {
 
     public String getNumber() {
         return number;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
     }
 
     @Override

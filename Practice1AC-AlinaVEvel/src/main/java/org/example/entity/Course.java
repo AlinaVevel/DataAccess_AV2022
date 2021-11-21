@@ -11,6 +11,16 @@ public class Course {
         this.name = name;
     }
 
+    public Course(){}
+
+    public void setIdCourse(int idCourse) {
+        this.idCourse = idCourse;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getIdCourse() {
         return idCourse;
     }

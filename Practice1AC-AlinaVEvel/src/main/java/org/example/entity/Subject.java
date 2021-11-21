@@ -3,19 +3,11 @@ package org.example.entity;
 public class Subject {
 
     private int code;
-    private String name;
+    private String nameSubject;
     private int year;
     private int hours;
     private int course_id;
 
-
-    public Subject(int code, String name, int year, int hours, int course_id) {
-        this.code = code;
-        this.name = name;
-        this.year = year;
-        this.hours = hours;
-        this.course_id = course_id;
-    }
 
     public int getCode() {
         return code;
@@ -25,12 +17,12 @@ public class Subject {
         this.code = code;
     }
 
-    public String getName() {
-        return name;
+    public String getNameSubject() {
+        return nameSubject;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNameSubject(String nameSubject) {
+        this.nameSubject = nameSubject;
     }
 
     public int getYear() {
