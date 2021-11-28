@@ -3,6 +3,7 @@ package org.example;
 import org.example.entity.Course;
 import org.example.entity.Student;
 import org.example.entity.Subject;
+import org.example.scene.MainControllerStudents;
 import org.xml.sax.SAXException;
 
 import javax.xml.parsers.ParserConfigurationException;
@@ -15,7 +16,11 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+/**
+ * The type My runner.
+ */
 public class MyRunner {
+    MainControllerStudents ms = new MainControllerStudents();
 
     private SAXParser createSaxParser() {
 
@@ -30,69 +35,77 @@ public class MyRunner {
             return saxParser;
         } catch (ParserConfigurationException | SAXException ex) {
 
-            Logger lgr = Logger.getLogger(MyRunner.class.getName());
-            lgr.log(Level.SEVERE, ex.getMessage(), ex);
+            ms.AlterDialogError("Error", ex.getMessage());
         }
 
         return saxParser;
     }
 
-    public List<Student> parseStudent(File file) {
+    /**
+     * the method that Parse student and return student list
+     *
+     * @param file the file
+     * @return the list of students
+     * @throws  SAXException
+     */
+    public List<Student> parseStudent(File file) throws IOException, SAXException {
 
         MyHandler handler = new MyHandler();
 
         File xmlDocument = file;
 
-        try {
+
 
             SAXParser parser = createSaxParser();
             parser.parse(xmlDocument, handler);
 
-        } catch (SAXException | IOException ex) {
 
-            Logger lgr = Logger.getLogger(MyRunner.class.getName());
-            lgr.log(Level.SEVERE, ex.getMessage(), ex);
-        }
 
          return handler.getStudents();
     }
 
-    public List<Course> parseCourse(File file) {
+    /**
+     * the method that Parse course and return course list
+     *
+     * @param file the file
+     * @return the list of courses
+     * @throws SAXException
+     */
+    public List<Course> parseCourse(File file) throws IOException, SAXException {
 
         MyHandler handler = new MyHandler();
 
         File xmlDocument = file;
 
-        try {
+
 
             SAXParser parser = createSaxParser();
             parser.parse(xmlDocument, handler);
 
-        } catch (SAXException | IOException ex) {
 
-            Logger lgr = Logger.getLogger(MyRunner.class.getName());
-            lgr.log(Level.SEVERE, ex.getMessage(), ex);
-        }
 
         return handler.getCourses();
     }
 
-    public List<Subject> parseSubject(File file) {
+    /**
+     * the method that Parse subject and return subject list
+     *
+     * @param file the file
+     * @return the list of subjects
+     * @throws SAXException
+     */
+    public List<Subject> parseSubject(File file) throws SAXException, IOException {
 
         MyHandler handler = new MyHandler();
 
         File xmlDocument = file;
 
-        try {
+
 
             SAXParser parser = createSaxParser();
             parser.parse(xmlDocument, handler);
 
-        } catch (SAXException | IOException ex) {
 
-            Logger lgr = Logger.getLogger(MyRunner.class.getName());
-            lgr.log(Level.SEVERE, ex.getMessage(), ex);
-        }
 
         return handler.getSubject();
     }

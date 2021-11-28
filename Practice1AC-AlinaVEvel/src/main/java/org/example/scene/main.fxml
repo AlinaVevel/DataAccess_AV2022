@@ -8,9 +8,9 @@
    <children>
       <TabPane layoutX="1.0" prefHeight="432.0" prefWidth="676.0" tabClosingPolicy="UNAVAILABLE">
         <tabs>
-          <Tab text="Students">
+          <Tab style="-fx-background-color: #957b8d;" text="Students">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="388.0" prefWidth="597.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="388.0" prefWidth="597.0" style="-fx-background-color: #8a7f8e;">
                      <children>
                         <Label graphicTextGap="6.0" layoutX="60.0" layoutY="65.0" text="First name:">
                            <font>
@@ -38,14 +38,14 @@
                         <TextField id="iputIdCard" fx:id="inputIdCard" layoutX="175.0" layoutY="146.0" prefHeight="25.0" prefWidth="260.0" />
                         <TextField id="inputEmail" fx:id="inputEmail" layoutX="175.0" layoutY="187.0" prefHeight="25.0" prefWidth="260.0" />
                         <TextField id="inputPhone" fx:id="inputPhone" layoutX="175.0" layoutY="224.0" prefHeight="25.0" prefWidth="260.0" />
-                        <Button id="registrationB" fx:id="registrationB" layoutX="251.0" layoutY="291.0" mnemonicParsing="false" onAction="#initialize" prefHeight="25.0" prefWidth="109.0" text="Add" />
+                        <Button id="registrationB" fx:id="registrationB" layoutX="251.0" layoutY="291.0" mnemonicParsing="false" onAction="#initialize" prefHeight="25.0" prefWidth="109.0" style="-fx-background-color: #ccccff;" text="Add" />
                         <Label id="errorLabel" fx:id="errorText" layoutX="76.0" layoutY="328.0" />
                      </children></AnchorPane>
             </content>
           </Tab>
-          <Tab text="Enrollments">
+          <Tab style="-fx-background-color: #8a7f8e;" text="Enrollments">
             <content>
-              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+              <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #8a7f8e;">
                      <children>
                         <ChoiceBox fx:id="choiceStudent" layoutX="242.0" layoutY="107.0" prefHeight="25.0" prefWidth="227.0" />
                         <ChoiceBox fx:id="choiceCourse" layoutX="242.0" layoutY="168.0" prefHeight="25.0" prefWidth="228.0" />
@@ -59,16 +59,16 @@
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Button id="enrollButton" fx:id="enrollButton" layoutX="286.0" layoutY="260.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="106.0" text="Enroll" />
+                        <Button id="enrollButton" fx:id="enrollButton" layoutX="286.0" layoutY="260.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="106.0" style="-fx-background-color: #ccccff;" text="Enroll" />
                      </children></AnchorPane>
             </content>
           </Tab>
-            <Tab text="Reports">
+            <Tab style="-fx-background-color: #a18594;" text="Reports">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #8a7f8e;">
                      <children>
                         <TextArea fx:id="textArea" layoutX="93.0" layoutY="92.0" prefHeight="205.0" prefWidth="469.0" />
-                        <Button fx:id="printButton" layoutX="307.0" layoutY="328.0" mnemonicParsing="false" text="Print" />
+                        <Button fx:id="printButton" layoutX="307.0" layoutY="328.0" mnemonicParsing="false" style="-fx-background-color: #ccccff;" text="Print" />
                         <ChoiceBox fx:id="report_student_id" layoutX="198.0" layoutY="45.0" prefHeight="25.0" prefWidth="218.0" />
                         <Label layoutX="93.0" layoutY="47.0" text="Student id">
                            <font>
@@ -78,11 +78,11 @@
                      </children></AnchorPane>
                </content>
             </Tab>
-            <Tab text="Utilities">
+            <Tab style="-fx-background-color: #aa98a9;" text="Utilities">
                <content>
-                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
+                  <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #8a7f8e;">
                      <children>
-                        <Button fx:id="btnXml" layoutX="255.0" layoutY="156.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="188.0" text="Input XML File" />
+                        <Button fx:id="btnXml" layoutX="203.0" layoutY="162.0" mnemonicParsing="false" prefHeight="40.0" prefWidth="188.0" style="-fx-background-color: #ccccff;" text="Input XML File" />
                      </children></AnchorPane>
                </content>
             </Tab>

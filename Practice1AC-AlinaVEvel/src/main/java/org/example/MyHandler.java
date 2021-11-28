@@ -3,6 +3,7 @@ package org.example;
 import org.example.entity.Course;
 import org.example.entity.Student;
 import org.example.entity.Subject;
+import org.example.scene.MainControllerStudents;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -10,21 +11,34 @@ import org.xml.sax.helpers.DefaultHandler;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * The class My handler.
+ */
 public class MyHandler extends DefaultHandler {
 
+    /**
+     * The Connector.
+     */
     SqlConnector connector = SqlConnector.getInstance();
 
 
     private List<Student> students = new ArrayList<>();
     private Student student;
 
+    private String nameStudent;
+    private String lastNameStudent;
+    private String idCardStudent;
+    private String emailStudent;
+    private String phoneStudent;
+
     private List<Course> courses = new ArrayList<>();
     private Course course;
 
+    private int idCourse;
+    private String nameCourse;
+
     private List<Subject> subjects = new ArrayList<>();
     private Subject subject;
-
-    private StringBuilder builder = new StringBuilder();
 
     private int code;
     private String name;
@@ -33,6 +47,17 @@ public class MyHandler extends DefaultHandler {
     private int courseId;
 
 
+    private StringBuilder builder = new StringBuilder();
+
+
+
+    /**
+     * Method that open a tag
+     * @param uri
+     * @param localName
+     * @param qName
+     * @param attributes
+     */
     @Override
     public void startElement(String uri, String localName,
                              String qName, Attributes attributes) throws SAXException {
@@ -40,8 +65,8 @@ public class MyHandler extends DefaultHandler {
         switch (qName) {
             case "student":
                 student = new Student();
-                student.setId(attributes.getValue("id"));
-                students.add(student);
+                idCardStudent = attributes.getValue("id");
+
                 break;
             case "firstname":
                 builder.delete(0, builder.length());
@@ -60,8 +85,8 @@ public class MyHandler extends DefaultHandler {
         switch (qName) {
             case "course":
                 course = new Course();
-                course.setIdCourse(Integer.parseInt(attributes.getValue("id")));
-                courses.add(course);
+                idCourse = Integer.parseInt(attributes.getValue("id"));
+
                 break;
             case "name":
                 builder.delete(0, builder.length());
@@ -86,6 +111,10 @@ public class MyHandler extends DefaultHandler {
         }
     }
 
+    /**
+     * Method that received the valor of tag
+     *
+     */
     @Override
     public void characters(char[] ch, int start, int length) throws SAXException {
 
@@ -98,24 +127,35 @@ public class MyHandler extends DefaultHandler {
 
         switch (qName) {
             case "firstname":
-                student.setName(builder.toString());
+                nameStudent = builder.toString();
                 break;
             case "lastname":
-                student.setLastName(builder.toString());
+                lastNameStudent = builder.toString();
                 break;
             case "email":
-                student.setEmail(builder.toString());
+                emailStudent = builder.toString();
                 break;
             case "phone":
-                student.setNumber(builder.toString());
+                phoneStudent = builder.toString();
                 break;
+            case "student":
+                student.setId(idCardStudent);
+                student.setName(nameStudent);
+                student.setLastName(lastNameStudent);
+                student.setEmail(emailStudent);
+                student.setNumber(phoneStudent);
+                students.add(student);
         }
 
         switch (qName) {
 
             case "name":
-                course.setName(builder.toString());
+                nameCourse = builder.toString();
                 break;
+            case "course":
+                course.setIdCourse(idCourse);
+                course.setName(nameCourse);
+                courses.add(course);
         }
 
         switch (qName) {
@@ -139,15 +179,30 @@ public class MyHandler extends DefaultHandler {
         }
     }
 
+    /**
+     * Gets students.
+     *
+     * @return the list of students
+     */
     public List<Student> getStudents() {
 
         return students;
     }
 
+    /**
+     * Gets courses.
+     *
+     * @return the courses
+     */
     public List<Course> getCourses() {
         return courses;
     }
 
+    /**
+     * Gets subject.
+     *
+     * @return the subject
+     */
     public List<Subject> getSubject() {
         return subjects;
     }
