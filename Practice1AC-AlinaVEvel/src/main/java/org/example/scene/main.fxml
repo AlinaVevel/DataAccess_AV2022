@@ -48,18 +48,21 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0" style="-fx-background-color: #8a7f8e;">
                      <children>
                         <ChoiceBox fx:id="choiceStudent" layoutX="242.0" layoutY="107.0" prefHeight="25.0" prefWidth="227.0" />
-                        <ChoiceBox fx:id="choiceCourse" layoutX="242.0" layoutY="168.0" prefHeight="25.0" prefWidth="228.0" />
+                        <ChoiceBox fx:id="choiceCourse" layoutX="242.0" layoutY="285.0" prefHeight="25.0" prefWidth="228.0" />
                         <Label layoutX="88.0" layoutY="111.0" text="Student">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Label layoutX="88.0" layoutY="172.0" text="Course">
+                        <Label layoutX="88.0" layoutY="287.0" text="Course">
                            <font>
                               <Font size="14.0" />
                            </font>
                         </Label>
-                        <Button id="enrollButton" fx:id="enrollButton" layoutX="286.0" layoutY="260.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="106.0" style="-fx-background-color: #ccccff;" text="Enroll" />
+                        <Button id="enrollButton" fx:id="enrollButton" layoutX="285.0" layoutY="336.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="106.0" style="-fx-background-color: #ccccff;" text="Enroll" />
+                        <TextField fx:id="inputIdEnroll" layoutX="242.0" layoutY="170.0" />
+                        <TextField fx:id="outputNameEnroll" editable="false" layoutX="242.0" layoutY="225.0" />
+                        <Button fx:id="btnSearch" layoutX="469.0" layoutY="202.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="101.0" text="Search" />
                      </children></AnchorPane>
             </content>
           </Tab>

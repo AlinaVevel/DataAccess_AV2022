@@ -66,6 +66,12 @@ public class MainControllerStudents {
     @FXML
     TextField inputEmail;
 
+    @FXML
+    TextField inputIdEnroll;
+
+    @FXML
+    TextField outputNameEnroll;
+
     /**
      * The Input phone.
      */
@@ -115,6 +121,9 @@ public class MainControllerStudents {
     @FXML
     Button btnXml;
 
+    @FXML
+    Button btnSearch;
+
 
     /**
      * Method to initialize the elements of fxml
@@ -131,9 +140,9 @@ public class MainControllerStudents {
                     String lastname = inputLastName.getText();
                     String email = inputEmail.getText();
                     String number = inputPhone.getText();
-                    String regName = "^[A-Z][-a-zA-Z]+$";
+
                     String regEmail = "^([a-z0-9_-]+\\.)*[a-z0-9_-]+@[a-z0-9_-]+(\\.[a-z0-9_-]+)*\\.[a-z]{2,6}$";
-                    String regPhone = "^(\\s*)?(\\+)?([- _():=+]?\\d[- _():=+]?){10,14}(\\s*)?$";
+                    String regPhone = "^[0-9]{9}";
 
 
 
@@ -147,8 +156,11 @@ public class MainControllerStudents {
 
                     }
 
-                    else if(!name.matches(regName) || !lastname.matches(regName)){
-                        AlterDialogError("Error", "Invalid name");
+                    else if(!email.isEmpty() && !email.matches(regEmail)) {
+                        AlterDialogError("Error", "Email bad formated");
+                    }
+                     else if(!number.isEmpty() && !number.matches(regPhone)){
+                        AlterDialogError("Error", "Number bad formated");
                     }
 
                     else {
@@ -192,6 +204,23 @@ public class MainControllerStudents {
                         connector.insertEnrollment(idStudent, idCourse);
 
                     }
+
+                }
+        );
+
+        btnSearch.setOnAction(
+
+                actionEvent -> {
+                    String idStudent = inputIdEnroll.getText();
+                    String name = connector.getNameStudent(idStudent);
+                    if(name == null){
+                        AlterDialogError("Error", "Student don't find");
+                        inputIdEnroll.setText("");
+                        }
+                    else{
+                        outputNameEnroll.setText(name);
+                    }
+
 
                 }
         );

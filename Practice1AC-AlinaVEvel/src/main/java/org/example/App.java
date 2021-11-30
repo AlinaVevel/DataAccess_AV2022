@@ -9,13 +9,20 @@ import org.example.scene.MainControllerStudents;
 
 
 /**
- * Hello world!
- *
+ * The type App.
  */
 public class App extends Application
 {
+    /**
+     * The Connector.
+     */
     SqlConnector connector = SqlConnector.getInstance();
 
+    /**
+     * The entry point of application.
+     *
+     * @param args the input arguments
+     */
     public static void main(String[] args) {
         launch(args);
     }

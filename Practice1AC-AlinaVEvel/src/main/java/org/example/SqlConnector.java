@@ -120,10 +120,22 @@ public class SqlConnector {
                     "\t\t\twhere subjects.course_id = courses.code and scores.subjectid = subjects.code and scores.enrollmentid = enrollment.code \n" +
                     "\t\t\tand enrollment.student ='" + idStudent + "'";
             ResultSet rs = statment.executeQuery(Sentence);
+            double avg = 0;
+            int i = 0;
+
+
             while (rs.next()) {
+
                 addStirng = rs.getString(1) + " - " +
                         rs.getString(2) + " : " + "\t" + rs.getInt(3);
-                values.add(addStirng);
+               avg+=rs.getInt(3);
+               values.add(addStirng);
+               i++;
+            }
+
+            if(i > 0){
+                avg = avg / i;
+                values.add("Average Score:  " + avg);
             }
 
         } catch (SQLException e) {
@@ -218,6 +230,9 @@ public class SqlConnector {
         return listaData;
     }
 
+
+
+
     /**
      * Method that is looking in array id course
      *
@@ -233,6 +248,17 @@ public class SqlConnector {
         }
 
         return code;
+    }
+
+    public String getNameStudent(String idStudent){
+        String name = null;
+        for (int i = 0; i < getStudents().size(); i++) {
+            if (getStudents().get(i).getId().equals(idStudent)) {
+                name = getStudents().get(i).getName() + " ";
+                name = name + getStudents().get(i).getLastName();
+            }
+        }
+        return name;
     }
 
     /**
