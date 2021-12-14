@@ -1,0 +1,29 @@
+I created the domain for check the id of employee, every employee id starts with 7 and has 3 numbers after
+
+create domain idCheck AS integer CHECK (VALUE::TEXT LIKE '7___')
+
+insert into employee values(7975, 'STARK', 20, 'SALESMAN') --valid
+
+insert into employee values(797533, 'POTS', 20, 'SALESMAN') --not valid (id)
+
+
+I created enum for jobs, locations and departments
+
+create type nameJobs as enum ('CLERK', 'SALESMAN', 'MANAGER', 'ANALYST', 'PRESIDENT')
+
+create type nameLocation as enum ('NEW YORK', 'DALLAS', 'CHICAGO', 'BOSTON')
+
+create type nameDepartments as enum ('ACCOUNTING', 'RESEARCH', 'SALES', 'OPERATIONS')
+
+
+insert into employee values(7975, 'STARK', 20, 'SALESMAN') --valid
+
+insert into employee values(797533, 'POTS', 20, 'SALESMAN') --not valid (id)
+
+insert into employee values(7976, 'ROGERS', 20, 'CAPITAN AMERICA') --not valid (job name)
+
+insert into dept values(80, 'SALES', 'CHICAGO') -- valid
+
+insert into dept values(80, 'AVENGERS', 'CHICAGO') -- not valid
+
+insert into dept values(80, 'SALES', 'MEXICO') -- not valid

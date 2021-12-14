@@ -1,0 +1,35 @@
+For idCard in table students I created the composite types (2 letters, then numbers)
+
+insert into students values ('Alina', 'Vevel', 'alinavevel@gmail.com', '871612323', ROW('cd', 003)) --valid
+
+insert into students values ('Jose', 'Miguel', 'jose@gmail.com', '9827389' 'cd0003') --not valid
+
+For courses I created enum types with courses names
+
+insert into courses values (1, 'DAM') --valid
+
+insert into courses values (2, 'Pepito') --not valid
+
+Same for table subjects with enums of subjects names
+
+insert into subjects values (11, 2021, 60, 1, 'ENGLISH2') --valid
+
+insert into subjects values (11, 2021, 60, 1, 'MAKE COCKIES') --not valid
+
+I created a domain for hours, that means that we can't have hours < 0
+
+insert into subjects values (11, 2021, -60, 1, 'ENGLISH2') --not valid
+
+I needed to update row student becouse the idCard was modified
+
+insert into enrollment values (1, 1, ROW('cd', 003)) --valid
+
+insert into enrollment values (1, 1, 'cd003') -- not valid
+
+I created for score in table scores a domain that controls scroe, it can't be < 0 and > 10
+
+insert into scores values (1, 11, 7) --valid
+
+insert into scores values (1, 11, 11) -- not valid
+
+insert into scores values (1, 11, -7) -- not valid
