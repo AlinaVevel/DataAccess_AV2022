@@ -1,13 +1,14 @@
-import java.util.Date;
+import java.time.LocalDate;
 
-public class Sculpture extends ArtWork {
+class Sculpture extends ArtWork {
     protected Material material;
-    protected double weight;
+    protected Style typeStyle;
 
-    public Sculpture(String title, Author author, Date date, String code, Style style) {
-        super(title, author, date,code,style);
+    public Sculpture(String title, Author author, LocalDate date, Material material, Style typeStyle) {
+        super(title, author, date);
+        setMaterial(material);
+        setType(typeStyle);
     }
-
 
     public Material getMaterial() {
         return material;
@@ -17,5 +18,11 @@ public class Sculpture extends ArtWork {
         this.material = material;
     }
 
+    public Style getType() {
+        return typeStyle;
+    }
 
+    public void setType(Style typeStyle) {
+        this.typeStyle = typeStyle;
+    }
 }
