@@ -115,7 +115,7 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
             </rowConstraints>
             <children>
-                <ImageView fx:id="search" fitHeight="66.0" fitWidth="201.0" pickOnBounds="true" preserveRatio="true" rotate="29.1">
+                <ImageView fx:id="search" fitHeight="66.0" fitWidth="201.0" onMouseClicked="#searchClick" pickOnBounds="true" preserveRatio="true" rotate="29.1">
                     <image>
                         <Image url="@icons8-поиск-100.png" />
                     </image>
@@ -131,7 +131,7 @@
                         <Insets left="70.0" />
                     </GridPane.margin>
                 </ImageView>
-                <ImageView fx:id="modify" fitHeight="57.0" fitWidth="68.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+                <ImageView fx:id="modify" fitHeight="57.0" fitWidth="68.0" onMouseClicked="#modifyClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
                     <GridPane.margin>
                         <Insets left="70.0" />
                     </GridPane.margin>
@@ -250,7 +250,7 @@
                         <Insets left="118.0" />
                     </GridPane.margin>
                 </ImageView>
-                <ImageView fx:id="delet" fitHeight="68.0" fitWidth="300.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
+                <ImageView fx:id="delet" fitHeight="68.0" fitWidth="300.0" onMouseClicked="#returnClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="1">
                     <image>
                         <Image url="@icons8-отменить-2-64.png" />
                     </image>
@@ -280,8 +280,8 @@
                         <Insets />
                     </opaqueInsets>
                 </Label>
-                <TextField GridPane.columnIndex="1" />
-                <TextField GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                <TextField fx:id="inputIsbn" GridPane.columnIndex="1" />
+                <TextField fx:id="inputTitle" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <Label text="Title:" GridPane.halignment="LEFT" GridPane.rowIndex="1">
                     <font>
                         <Font size="16.0" />
@@ -297,8 +297,8 @@
                         <Font size="16.0" />
                     </font>
                 </Label>
-                <TextField GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                <Slider max="10.0" min="1.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                <TextField fx:id="inputPublisher" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <Slider fx:id="inputCopies" majorTickUnit="1.0" max="10.0" min="1.0" minorTickCount="0" showTickLabels="true" showTickMarks="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
             </children>
             <padding>
                 <Insets left="20.0" right="15.0" />
