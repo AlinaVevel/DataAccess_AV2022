@@ -109,6 +109,50 @@ public class SessionHibernate {
         return userToReturn;
     }
 
+    public boolean bookExists(String isbn){
+        Session session = null;
+
+        try {
+            session = openSession();
+            Query<BooksJPAEntity> myQuery =
+                    session.createQuery("from com.alinavevel.libraryapp.BooksJPAEntity");
+            List<BooksJPAEntity> books = myQuery.list();
+            for ( Object bookObject : books ) {
+                BooksJPAEntity book = (BooksJPAEntity) bookObject;
+                if(book.getIsbn().equals(isbn)) {
+                    return true;
+                }
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean userExists(String code){
+        Session session = null;
+
+        try {
+            session = openSession();
+            Query<UsersJPAEntity> myQuery =
+                    session.createQuery("from com.alinavevel.libraryapp.UsersJPAEntity");
+            List<UsersJPAEntity> users = myQuery.list();
+            for ( Object userObject : users ) {
+                UsersJPAEntity user = (UsersJPAEntity) userObject;
+                if(user.getCode().equals(code)) {
+                    return true;
+                }
+            }
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
     public BooksJPAEntity getBookById(String isbn){
         Session session = null;
         BooksJPAEntity bookToReturn = new BooksJPAEntity();

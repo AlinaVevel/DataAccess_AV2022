@@ -8,5 +8,6 @@ public enum States {
     MODIFYUSER,
     ADDBOOK,
     SEARCHBOOK,
-    MODIFYBOOK;
+    MODIFYBOOK,
+    BORROWBOOK;
 }

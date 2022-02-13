@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alinavevel.libraryapp.HelloController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alinavevel.libraryapp.LibraryAppController">
     <children>
         <GridPane fx:id="menuPane" prefHeight="66.0" prefWidth="600.0" style="-fx-background-color: #9370DB;">
             <columnConstraints>
@@ -36,7 +36,7 @@
                         <Insets left="25.0" />
                     </GridPane.margin>
                 </ImageView>
-                <ImageView fx:id="borrowBook" fitHeight="68.0" fitWidth="121.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
+                <ImageView fx:id="borrowBook" fitHeight="68.0" fitWidth="121.0" onMouseClicked="#borrowBookClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="2">
                     <image>
                         <Image url="@icons8-одолжить-книгу-64.png" />
                     </image>
@@ -81,7 +81,7 @@
                     <opaqueInsets>
                         <Insets />
                     </opaqueInsets></Label>
-                <TextField fx:id="inputCode" GridPane.columnIndex="1" />
+                <TextField fx:id="inputCode" disable="true" GridPane.columnIndex="1" />
                 <TextField fx:id="inputFirstName" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <TextField fx:id="inputLastName" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                 <DatePicker fx:id="inputBirthday" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
