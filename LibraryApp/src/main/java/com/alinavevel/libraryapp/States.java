@@ -9,5 +9,6 @@ public enum States {
     ADDBOOK,
     SEARCHBOOK,
     MODIFYBOOK,
-    BORROWBOOK;
+    BORROWBOOK,
+    INSERTBORROWBOOK, RETURNBOOK;
 }

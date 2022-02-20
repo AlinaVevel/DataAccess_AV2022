@@ -12,6 +12,7 @@ public class UsersJPAEntity {
     private String name;
     private String surname;
     private Date birthdate;
+    private Date fined;
     private List<BooksJPAEntity> lentBook;
     private List<BooksJPAEntity> lentBookReservation;
 
@@ -54,6 +55,16 @@ public class UsersJPAEntity {
 
     public void setBirthdate(Date birthdate) {
         this.birthdate = birthdate;
+    }
+
+    @Basic
+    @Column(name = "fined", nullable = true)
+    public Date getFined() {
+        return fined;
+    }
+
+    public void setFined(Date fined) {
+        this.fined = fined;
     }
 
     @Override

@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alinavevel.libraryapp.LibraryAppController">
+<AnchorPane fx:id="window" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/16" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.alinavevel.libraryapp.LibraryAppController">
     <children>
         <GridPane fx:id="menuPane" prefHeight="66.0" prefWidth="600.0" style="-fx-background-color: #9370DB;">
             <columnConstraints>
@@ -44,7 +44,7 @@
                         <Insets left="25.0" />
                     </GridPane.margin>
                 </ImageView>
-                <ImageView fx:id="returnBook" fitHeight="68.0" fitWidth="121.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
+                <ImageView fx:id="returnBook" fitHeight="68.0" fitWidth="121.0" onMouseClicked="#returnBookClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="3">
                     <image>
                         <Image url="@icons8-вернуть-книгу-64.png" />
                     </image>
@@ -52,7 +52,7 @@
                         <Insets left="25.0" />
                     </GridPane.margin>
                 </ImageView>
-                <ImageView fx:id="exit" fitHeight="69.0" fitWidth="123.0" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
+                <ImageView fx:id="exit" fitHeight="69.0" fitWidth="123.0" onMouseClicked="#exitClick" pickOnBounds="true" preserveRatio="true" GridPane.columnIndex="4">
                     <image>
                         <Image url="@icons8-выход-64.png" />
                     </image>
@@ -160,7 +160,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <TextField GridPane.rowIndex="1" />
+                        <TextField fx:id="nameFromChoiceBox" promptText="User name" GridPane.rowIndex="1" />
                         <GridPane>
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="337.0" minWidth="10.0" prefWidth="337.0" />
@@ -170,8 +170,8 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <TextField />
-                                <ImageView fitHeight="75.0" fitWidth="137.0" pickOnBounds="true" preserveRatio="true" rotate="29.1" GridPane.columnIndex="1">
+                                <TextField fx:id="userCodeBorrow" editable="false" promptText="User code" />
+                                <ImageView fx:id="searchUserName" fitHeight="75.0" fitWidth="137.0" onMouseClicked="#searchUserBorrow" pickOnBounds="true" preserveRatio="true" rotate="29.1" GridPane.columnIndex="1">
                                     <image>
                                         <Image url="@icons8-поиск-100.png" />
                                     </image>
@@ -181,6 +181,7 @@
                                 </ImageView>
                             </children>
                         </GridPane>
+                  <ChoiceBox fx:id="userChoiseBox" prefHeight="25.0" prefWidth="456.0" visible="false" GridPane.rowIndex="1" />
                     </children>
                 </GridPane>
                 <GridPane GridPane.columnIndex="1" GridPane.rowIndex="1">
@@ -192,7 +193,7 @@
                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                     </rowConstraints>
                     <children>
-                        <TextField GridPane.rowIndex="1" />
+                        <TextField fx:id="isbnName" promptText="Book name" GridPane.rowIndex="1" />
                         <GridPane>
                             <columnConstraints>
                                 <ColumnConstraints hgrow="SOMETIMES" maxWidth="348.0" minWidth="10.0" prefWidth="339.0" />
@@ -202,8 +203,8 @@
                                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
                             </rowConstraints>
                             <children>
-                                <TextField />
-                                <ImageView fitHeight="70.0" fitWidth="132.0" pickOnBounds="true" preserveRatio="true" rotate="29.1" GridPane.columnIndex="1">
+                                <TextField fx:id="isbnCodeBorrow" editable="false" promptText="ISBN" />
+                                <ImageView fitHeight="70.0" fitWidth="132.0" onMouseClicked="#searchNameBook" pickOnBounds="true" preserveRatio="true" rotate="29.1" GridPane.columnIndex="1">
                                     <image>
                                         <Image url="@icons8-поиск-100.png" />
                                     </image>
@@ -213,6 +214,7 @@
                                 </ImageView>
                             </children>
                         </GridPane>
+                  <ChoiceBox fx:id="isbnChoiseBox" prefHeight="25.0" prefWidth="459.0" visible="false" GridPane.rowIndex="1" />
                     </children>
                 </GridPane>
                 <Label text="User:">
