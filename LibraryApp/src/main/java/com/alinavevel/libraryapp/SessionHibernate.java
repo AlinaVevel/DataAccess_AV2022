@@ -342,6 +342,7 @@ public class SessionHibernate {
 
     public void updatingUser(UsersJPAEntity user) throws Exception {
         Session session = null;
+        UsersJPAEntity save;
         session = openSession();
         Query<UsersJPAEntity> myQuery =
                 session.createQuery("from com.alinavevel.libraryapp. " +
@@ -349,8 +350,11 @@ public class SessionHibernate {
                         + user.getCode() + "'");
         Transaction transaction = session.beginTransaction();
         List<UsersJPAEntity> books = myQuery.list();
-        user = (UsersJPAEntity) books.get(0);
-        session.update(user);
+        save = (UsersJPAEntity) books.get(0);
+        save.setName(user.getName());
+        save.setSurname(user.getSurname());
+        save.setBirthdate(user.getBirthdate());
+        session.update(save);
         transaction.commit(); // End of transaction
 
 
@@ -388,15 +392,18 @@ public class SessionHibernate {
     public void updatingBook(BooksJPAEntity book) throws Exception {
 
         Session session = openSession();
+        BooksJPAEntity save = new BooksJPAEntity();
         Query<BooksJPAEntity> myQuery =
                 session.createQuery("from com.alinavevel.libraryapp. " +
                         "BooksJPAEntity where isbn='"
                         + book.getIsbn() + "'");
         List<BooksJPAEntity> books = myQuery.list();
         Transaction transaction = session.beginTransaction();
-        book = (BooksJPAEntity) books.get(0);
-
-        session.update(book);
+        save = (BooksJPAEntity) books.get(0);
+        save.setTitle(book.getTitle());
+        save.setPublisher(book.getPublisher());
+        save.setCopies(book.getCopies());
+        session.update(save);
         transaction.commit(); // End of transaction
 
 
