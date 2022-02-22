@@ -1,13 +1,9 @@
 package com.alinavevel.libraryapp;
-
 import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -40,19 +36,8 @@ public class LibraryAppController extends SessionHibernate {
 
 
     @FXML
-    private ImageView account;
-
-    @FXML
-    private ImageView books;
-
-    @FXML
     private GridPane borowPane;
 
-    @FXML
-    private ImageView borrowBook;
-
-    @FXML
-    private ImageView confirm;
 
     @FXML
     private GridPane confirmDeletPane;
@@ -60,11 +45,6 @@ public class LibraryAppController extends SessionHibernate {
     @FXML
     private GridPane confirmModiifPane;
 
-    @FXML
-    private ImageView delet;
-
-    @FXML
-    private ImageView exit;
 
     @FXML
     private DatePicker inputBirthday;
@@ -78,20 +58,9 @@ public class LibraryAppController extends SessionHibernate {
     @FXML
     private TextField inputLastName;
 
-    @FXML
-    private GridPane menuPane;
-
-    @FXML
-    private ImageView modify;
 
     @FXML
     private GridPane registrationBooks;
-
-    @FXML
-    private ImageView returnBook;
-
-    @FXML
-    private ImageView search;
 
     @FXML
     private TextField inputIsbn;
@@ -134,6 +103,7 @@ public class LibraryAppController extends SessionHibernate {
         inputLastName.setDisable(true);
         inputBirthday.setDisable(true);
         inputCode.setDisable(true);
+        clearFieldAccaunt();
         estado = States.ACCAUNT;
     }
 
@@ -158,8 +128,6 @@ public class LibraryAppController extends SessionHibernate {
             estado = States.ADDBOOK;
 
         }
-
-
     }
 
     public void bookFields() {
@@ -173,6 +141,7 @@ public class LibraryAppController extends SessionHibernate {
         inputCopies.setDisable(true);
         inputPublisher.setDisable(true);
         inputIsbn.setDisable(true);
+        clearBookFields();
         estado = States.BOOK;
 
     }
@@ -318,6 +287,246 @@ public class LibraryAppController extends SessionHibernate {
         }
     }
 
+    public void addUser() {
+
+        String code = inputCode.getText();
+        String firstName = inputFirstName.getText();
+        String lastName = inputLastName.getText();
+        long now = System.currentTimeMillis();
+        Date sqlDate = new Date(now);
+        Date date = null;
+        String regName = "^[a-zA-Z]*$";
+        try {
+            date = Date.valueOf(inputBirthday.getValue());
+
+        } catch (Exception e) {
+
+        }
+        if (code.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || code.isBlank() || firstName.isBlank() || lastName.isBlank() || date == null) {
+            AlterDialogError("Insert failed", "Some fields are empty");
+
+        } else if (firstName.length() > 25) {
+            AlterDialogError("Error", "Name can't be mote than 25 characters");
+        } else if (!firstName.matches(regName) || !lastName.matches(regName)) {
+            AlterDialogError("Error", "Only characters");
+        } else if (code.length() > 8) {
+            AlterDialogError("Error", "The code can't be more than 13 characters");
+
+        } else if (date.toLocalDate().isAfter(LocalDate.now())) {
+            AlterDialogError("Error", "The date can't be after than today ");
+        } else if (connection.userExists(code)) {
+            AlterDialogError("Insert failed", "User exists");
+
+        } else if (!code.isEmpty() && !firstName.isEmpty() && !lastName.isEmpty() && !code.isBlank() && !firstName.isBlank() && !lastName.isBlank() && !connection.userExists(code) && date != null) {
+            UsersJPAEntity user = new UsersJPAEntity();
+            user.setCode(code);
+            user.setName(firstName);
+            user.setSurname(lastName);
+            user.setBirthdate(date);
+            try {
+                connection.insertUser(user);
+                AlterDialogConfirmation("User registered", "DONE!");
+                clearFieldAccaunt();
+                accauntFields();
+            } catch (Exception e) {
+                AlterDialogError("Error", e.getMessage());
+            }
+
+        } else {
+            accauntFields();
+        }
+        accauntFields();
+
+
+    }
+
+    public void addBook() {
+        String isbn = inputIsbn.getText();
+        String title = inputTitle.getText();
+        String publisher = inputPublisher.getText();
+        int copies = (int) inputCopies.getValue();
+
+        if (isbn.isEmpty() || title.isEmpty() || publisher.isEmpty() || isbn.isBlank() || title.isBlank() || publisher.isBlank()) {
+            AlterDialogError("Insert failed", "Some fields are empty");
+            bookFields();
+            clearBookFields();
+
+        } else if (connection.bookExists(isbn)) {
+            AlterDialogError("Insert failed", "Book exists");
+            bookFields();
+            clearBookFields();
+        } else if (title.length() > 90) {
+            AlterDialogError("Error", "Title can't be more than 90 characters");
+
+        } else if (isbn.length() > 13) {
+            AlterDialogError("Error", "ISBN can't be more than 13 character");
+        } else if (publisher.length() > 60) {
+            AlterDialogError("Error", "Publisher can't be more than 60 characters");
+        } else if (!isbn.isEmpty() && !title.isEmpty() && !publisher.isEmpty() && !isbn.isBlank() && !title.isBlank() && !publisher.isBlank() && !connection.bookExists(isbn)) {
+            BooksJPAEntity book = new BooksJPAEntity();
+            book.setIsbn(isbn);
+            book.setCopies(copies);
+            book.setTitle(title);
+            book.setPublisher(publisher);
+            book.setCover("");
+            book.setOutline("");
+            try {
+                connection.insertBook(book);
+                AlterDialogConfirmation("Book registered", "DONE!");
+                bookFields();
+                clearBookFields();
+            } catch (Exception e) {
+                AlterDialogError("Error", e.getMessage());
+                bookFields();
+                clearBookFields();
+            }
+
+        }
+        bookFields();
+        clearBookFields();
+
+    }
+
+    public void updateUser() {
+        String code = inputCode.getText();
+        String firstName = inputFirstName.getText();
+        String lastName = inputLastName.getText();
+        long now = System.currentTimeMillis();
+        String regName = "^[a-zA-Z]*$";
+        Date date = null;
+        try {
+            date = Date.valueOf(inputBirthday.getValue());
+
+        } catch (Exception e) {
+
+        }
+
+        if (code.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || date == null || code.isBlank() || firstName.isBlank() || lastName.isBlank()) {
+            AlterDialogError("Error", "Some fields are empty");
+        } else if (lastName.length() > 25) {
+            AlterDialogError("Error", "Last name can't be mote than 25 characters");
+        } else if (firstName.length() > 25) {
+            AlterDialogError("Error", "Name can't be mote than 25 characters");
+        } else if (code.length() > 8) {
+            AlterDialogError("Error", "The code can't be more than 13 characters");
+
+        } else if (!firstName.matches(regName) || !lastName.matches(regName)) {
+            AlterDialogError("Error", "Only characters");
+        } else if (date.toLocalDate().isAfter(LocalDate.now())) {
+            AlterDialogError("Error", "The date can't be after than today ");
+        } else if (!code.isEmpty() && !firstName.isEmpty() && !lastName.isEmpty() && date != null && !code.isBlank() || !firstName.isBlank() || !lastName.isBlank()) {
+
+            try {
+                UsersJPAEntity user = new UsersJPAEntity();
+                user.setCode(code);
+                user.setName(firstName);
+                user.setSurname(lastName);
+                user.setBirthdate(date);
+                connection.updatingUser(user);
+                AlterDialogConfirmation("User updated", "DONE!");
+
+            } catch (Exception e) {
+                AlterDialogError("Error", e.getCause().getCause().getMessage());
+            }
+        }
+        accauntFields();
+        clearFieldAccaunt();
+    }
+
+    public void updateBook() {
+        String isbn = inputIsbn.getText();
+        String title = inputTitle.getText();
+        String publisher = inputPublisher.getText();
+        int copies = (int) inputCopies.getValue();
+        if (isbn.isEmpty() || title.isEmpty() || publisher.isEmpty()) {
+            AlterDialogError("Error", "Some fields are empty");
+        } else if (title.length() > 90) {
+            AlterDialogError("Error", "Title can't be more than 90 characters");
+
+        } else if (isbn.length() > 13) {
+            AlterDialogError("Error", "ISBN can't be more than 13 character");
+        } else if (publisher.length() > 60) {
+            AlterDialogError("Error", "Publisher can't be more than 60 characters");
+        } else if (!isbn.isEmpty() && !title.isEmpty() && !publisher.isEmpty() && !isbn.isBlank() && !title.isBlank() && !publisher.isBlank()) {
+
+            try {
+                BooksJPAEntity book = new BooksJPAEntity();
+                book.setIsbn(isbn);
+                book.setTitle(title);
+                book.setCopies(copies);
+                book.setPublisher(publisher);
+                connection.updatingBook(book);
+                AlterDialogConfirmation("Book updated", "DONE!");
+
+            } catch (Exception e) {
+                AlterDialogError("Error", e.getMessage());
+
+            }
+        }
+        bookFields();
+        clearBookFields();
+
+    }
+
+    public void searchUser() {
+
+        UsersJPAEntity user;
+        String code = inputCode.getText();
+        if (code.isEmpty() || code.isBlank()) {
+            AlterDialogError("Error", "User code can't be empty");
+            clearFieldAccaunt();
+            accauntFields();
+        } else {
+            try {
+                user = connection.getUserById(code);
+                if (user == null) {
+                    AlterDialogError("Error", "User don't exists");
+                    clearFieldAccaunt();
+                    accauntFields();
+                } else {
+                    inputFirstName.setText(user.getName());
+                    inputLastName.setText(user.getSurname());
+                    inputBirthday.setValue(LocalDate.parse(user.getBirthdate().toString()));
+
+                }
+
+            } catch (Exception e) {
+                AlterDialogError("Error", e.getMessage());
+            }
+
+        }
+
+    }
+
+    public void searchBook() {
+        BooksJPAEntity book;
+        String isbn = inputIsbn.getText();
+        if (isbn.isEmpty() || isbn.isBlank()) {
+            AlterDialogError("Error", "ISBN can't be empty");
+            bookFields();
+        } else {
+            try {
+                book = connection.getBookById(isbn);
+                if (book == null) {
+                    AlterDialogError("Error", "Book don't exists");
+                    bookFields();
+                } else {
+                    inputIsbn.setText(book.getIsbn());
+                    inputTitle.setText(book.getTitle());
+                    inputCopies.setValue(book.getCopies());
+                    inputPublisher.setText(book.getPublisher());
+
+
+                }
+            } catch (Exception e) {
+                AlterDialogError("Error", e.getMessage());
+            }
+
+        }
+
+
+    }
+
     public void panelsDown() {
 
         confirmDeletPane.setVisible(false);
@@ -342,31 +551,27 @@ public class LibraryAppController extends SessionHibernate {
     }
 
     public void returnClick() {
-        registrationBooks.setVisible(false);
-        RegistrationPane.setVisible(true);
-        borowPane.setVisible(false);
-        confirmModiifPane.setVisible(true);
-        confirmDeletPane.setVisible(false);
-        inputFirstName.setDisable(true);
-        inputLastName.setDisable(true);
-        inputBirthday.setDisable(true);
-        inputCode.setDisable(true);
-        estado = States.ACCAUNT;
+        switch (estado) {
+            case ACCAUNT -> accauntFields();
+            case BOOK -> bookFields();
+            case SEARCHBOOK -> bookFields();
+            case SEARCHUSER -> accauntFields();
+            case MODIFYUSER -> accauntFields();
+            case MODIFYBOOK -> bookFields();
+            case ADDUSER -> accauntFields();
+            case ADDBOOK -> bookFields();
+
+        }
+
     }
 
     public void searchUserBorrow() {
         if (estado == States.RETURNBOOK) {
             listOfUsers();
-
-
         }
         if (estado == States.BORROWBOOK) {
             listOfUsers();
-
-
         }
-
-
     }
 
     public void searchNameBook() {
@@ -392,12 +597,8 @@ public class LibraryAppController extends SessionHibernate {
             if (result.isPresent()) {
                 isbnName.setText(result.get());
                 isbnCodeBorrow.setText(codeBook(isbnName.getText()));
-
             }
-
         }
-
-
     }
 
     public void listOfBook(String name) {
@@ -434,7 +635,7 @@ public class LibraryAppController extends SessionHibernate {
         String name = nameFromChoiceBox.getText();
         List<String> choices = new ArrayList<>();
         users = connection.listOfUsers(name);
-        if(users.size() > 0){
+        if (users.size() > 0) {
             for (UsersJPAEntity user : users) {
                 choices.add(user.getName() + " " + user.getSurname());
 
@@ -452,210 +653,8 @@ public class LibraryAppController extends SessionHibernate {
 
             }
 
-        }
-        else{
-            AlterDialogError("Error", "User don't found");
-        }
-
-    }
-
-    public void addUser() {
-
-        String code = inputCode.getText();
-        String firstName = inputFirstName.getText();
-        String lastName = inputLastName.getText();
-
-        Date date = null;
-        try {
-            date = Date.valueOf(inputBirthday.getValue());
-
-        } catch (Exception e) {
-
-        }
-        if (code.isEmpty() || firstName.isEmpty() || lastName.isEmpty()) {
-            AlterDialogError("Insert failed", "Some fields are empty");
-            accauntFields();
-        }
-        if (connection.userExists(code)) {
-            AlterDialogError("Insert failed", "User exists");
-            accauntFields();
-        }
-        if (!code.isEmpty() && !firstName.isEmpty() && !lastName.isEmpty()) {
-            UsersJPAEntity user = new UsersJPAEntity();
-            user.setCode(code);
-            user.setName(firstName);
-            user.setSurname(lastName);
-            user.setBirthdate(date);
-            try {
-                connection.insertUser(user);
-                AlterDialogConfirmation("User registered", "DONE!");
-                clearFieldAccaunt();
-                accauntFields();
-            } catch (Exception e) {
-                AlterDialogError("Error", e.getMessage());
-            }
-
-        }
-
-
-    }
-
-    public void addBook() {
-        String isbn = inputIsbn.getText();
-        String title = inputTitle.getText();
-        String publisher = inputPublisher.getText();
-        int copies = (int) inputCopies.getValue();
-
-        if (isbn.isEmpty() || title.isEmpty() || publisher.isEmpty()) {
-            AlterDialogError("Insert failed", "Some fields are empty");
-            bookFields();
-            clearBookFields();
-
-        }
-
-        if (connection.bookExists(isbn)) {
-            AlterDialogError("Insert failed", "Book exists");
-            bookFields();
-            clearBookFields();
-        }
-        if (!isbn.isEmpty() && !publisher.isEmpty() && !title.isEmpty()) {
-            BooksJPAEntity book = new BooksJPAEntity();
-            book.setIsbn(isbn);
-            book.setCopies(copies);
-            book.setTitle(title);
-            book.setPublisher(publisher);
-            book.setCover("");
-            book.setOutline("");
-            try {
-                connection.insertBook(book);
-                AlterDialogConfirmation("Book registered", "DONE!");
-                bookFields();
-                clearBookFields();
-            } catch (Exception e) {
-                AlterDialogError("Error", e.getMessage());
-                bookFields();
-                clearBookFields();
-            }
-
-        }
-
-    }
-
-    public void updateUser() {
-        String code = inputCode.getText();
-        String firstName = inputFirstName.getText();
-        String lastName = inputLastName.getText();
-
-        Date date = null;
-        try {
-            date = Date.valueOf(inputBirthday.getValue());
-
-        } catch (Exception e) {
-
-        }
-        if (code.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || date == null) {
-            AlterDialogError("Error", "Some fields are empty");
-        }
-        if (!code.isEmpty() && !firstName.isEmpty() && !lastName.isEmpty() && date != null) {
-
-            try {
-                UsersJPAEntity user = new UsersJPAEntity();
-                user.setCode(code);
-                user.setName(firstName);
-                user.setSurname(lastName);
-                user.setBirthdate(date);
-                connection.updatingUser(user);
-                AlterDialogConfirmation("User updated", "DONE!");
-            } catch (Exception e) {
-                AlterDialogError("Error", e.getMessage());
-            }
-        }
-        clearFieldAccaunt();
-        accauntFields();
-
-
-    }
-
-    public void updateBook() {
-        String isbn = inputIsbn.getText();
-        String title = inputTitle.getText();
-        String publisher = inputPublisher.getText();
-        int copies = (int) inputCopies.getValue();
-        if (isbn.isEmpty() || title.isEmpty() || publisher.isEmpty()) {
-            AlterDialogError("Error", "Some fields are empty");
-        }
-        if (!isbn.isEmpty() && !title.isEmpty() && !publisher.isEmpty()) {
-
-            try {
-                BooksJPAEntity book = new BooksJPAEntity();
-                book.setIsbn(isbn);
-                book.setTitle(title);
-                book.setCopies(copies);
-                book.setPublisher(publisher);
-                connection.updatingBook(book);
-                AlterDialogConfirmation("Book updated", "DONE!");
-                bookFields();
-                clearBookFields();
-            } catch (Exception e) {
-                AlterDialogError("Error", e.getMessage());
-                bookFields();
-                clearBookFields();
-            }
-        }
-    }
-
-    public void searchUser() {
-
-        UsersJPAEntity user;
-        String code = inputCode.getText();
-        if (code.isEmpty()) {
-            AlterDialogError("Error", "User code can't be empty");
         } else {
-            try {
-                user = connection.getUserById(code);
-                if (user == null) {
-                    AlterDialogError("Error", "User don't exists");
-                    clearFieldAccaunt();
-                    accauntFields();
-                } else {
-                    inputFirstName.setText(user.getName());
-                    inputLastName.setText(user.getSurname());
-                    inputBirthday.setValue(LocalDate.parse(user.getBirthdate().toString()));
-
-                }
-
-            } catch (Exception e) {
-                AlterDialogError("Error", e.getMessage());
-            }
-
-        }
-
-    }
-
-    public void searchBook() {
-        BooksJPAEntity book;
-        String isbn = inputIsbn.getText();
-        if (isbn.isEmpty()) {
-            AlterDialogError("Error", "ISBN can't be empty");
-            bookFields();
-        }
-        else{
-            try {
-                book = connection.getBookById(isbn);
-                if (book == null) {
-                    AlterDialogError("Error", "Book don't exists");
-                    bookFields();
-                } else {
-                    inputIsbn.setText(book.getIsbn());
-                    inputTitle.setText(book.getTitle());
-                    inputCopies.setValue(book.getCopies());
-                    inputPublisher.setText(book.getPublisher());
-
-                }
-            } catch (Exception e) {
-                AlterDialogError("Error", e.getMessage());
-            }
-
+            AlterDialogError("Error", "User don't found");
         }
 
     }
@@ -730,7 +729,7 @@ public class LibraryAppController extends SessionHibernate {
         inputPublisher.setText("");
     }
 
-    public void exitClick(){
+    public void exitClick() {
         Platform.exit();
     }
 
