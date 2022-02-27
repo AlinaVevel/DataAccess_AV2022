@@ -1,7 +1,8 @@
 package com.av2022.apirest.controllers;
 
 import com.av2022.apirest.model.dao.IReservationEntityDAO;
-import com.av2022.apirest.model.entity.ReservationJPAEntity;
+
+import com.av2022.apirest.model.entity.ReservationJPAEntityFinal;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -18,13 +19,13 @@ public class ReservationController {
     private IReservationEntityDAO reservationEntityDAO;
 
     @GetMapping
-    public List<ReservationJPAEntity> findAllReservations() {
-        return (List<ReservationJPAEntity>) reservationEntityDAO.findAll();
+    public List<ReservationJPAEntityFinal> findAllReservations() {
+        return (List<ReservationJPAEntityFinal>) reservationEntityDAO.findAll();
     }
 
-    @GetMapping("/{idreservation}")
-    public ResponseEntity<ReservationJPAEntity> findReservationById(@PathVariable(value = "idreservation") int id) {
-        Optional<ReservationJPAEntity> Reservation = reservationEntityDAO.findById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<ReservationJPAEntityFinal> findReservationById(@PathVariable(value = "id") int id) {
+        Optional<ReservationJPAEntityFinal> Reservation = reservationEntityDAO.findById(id);
 
         if(Reservation.isPresent()) {
             return ResponseEntity.ok().body(Reservation.get());
@@ -34,13 +35,13 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ReservationJPAEntity saveReservation(@Validated @RequestBody ReservationJPAEntity Reservation) {
+    public ReservationJPAEntityFinal saveReservation(@Validated @RequestBody ReservationJPAEntityFinal Reservation) {
         return reservationEntityDAO.save(Reservation);
     }
 
-    @DeleteMapping("/{idreservation}")
-    public ResponseEntity<?> deleteReservation(@PathVariable(value = "idreservation") int id) {
-        Optional<ReservationJPAEntity> Reservation = reservationEntityDAO.findById(id);
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteReservation(@PathVariable(value = "id") int id) {
+        Optional<ReservationJPAEntityFinal> Reservation = reservationEntityDAO.findById(id);
         if(Reservation.isPresent()) {
             reservationEntityDAO.deleteById(id);
             return ResponseEntity.ok().body("Deleted");

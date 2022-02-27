@@ -10,10 +10,11 @@
     <property name="connection.password">1101739</property>
     <property name="hibernate.dialect">org.hibernate.dialect.PostgreSQLDialect</property>
 
-      <mapping class="com.av2022.apirest.model.entity.ReservationJPAEntity"/>
+
+    <mapping class="com.av2022.apirest.model.entity.ReservationJPAEntityFinal"/>
 
 
-      <!-- <property name="connection.username"/> -->
+    <!-- <property name="connection.username"/> -->
     <!-- <property name="connection.password"/> -->
 
     <!-- DB schema will be updated if needed -->
