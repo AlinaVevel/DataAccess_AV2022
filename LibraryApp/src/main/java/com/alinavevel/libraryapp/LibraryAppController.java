@@ -10,13 +10,35 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type Library app controller.
+ */
 public class LibraryAppController extends SessionHibernate {
 
+    /**
+     * The Connection.
+     */
     SessionHibernate connection = new SessionHibernate();
+    /**
+     * The Estado.
+     */
     States estado = States.ACCAUNT;
+    /**
+     * The Users.
+     */
     ArrayList<UsersJPAEntity> users = new ArrayList<>();
+    /**
+     * The Books list.
+     */
     ArrayList<BooksJPAEntity> booksList = new ArrayList<>();
+    /**
+     * The Lendinglist.
+     */
     ArrayList<LendingJPAEntity> lendinglist = new ArrayList<>();
+    /**
+     * The Api.
+     */
+    ReservationAPI api = new ReservationAPI();
 
     //region fxml
     @FXML
@@ -84,16 +106,19 @@ public class LibraryAppController extends SessionHibernate {
     private TextField isbnName;
 
 
+    /**
+     * Instantiates a new Library app controller.
+     */
     public LibraryAppController() {
     }
 
     //endregion
 
+    /**
+     * Accaunt click.
+     * Method for button Accaunt
+     */
     public void accauntClick() {
-        accauntFields();
-    }
-
-    public void accauntFields() {
         RegistrationPane.setVisible(true);
         registrationBooks.setVisible(false);
         borowPane.setVisible(false);
@@ -103,12 +128,18 @@ public class LibraryAppController extends SessionHibernate {
         inputLastName.setDisable(true);
         inputBirthday.setDisable(true);
         inputCode.setDisable(true);
-        clearFieldAccaunt();
+        inputCode.setText("");
+        inputBirthday.setValue(null);
+        inputFirstName.setText("");
+        inputLastName.setText("");
         estado = States.ACCAUNT;
     }
 
+    /**
+     * Add user click.
+     * Method adding user
+     */
     public void addUserClick() {
-
         if (estado == States.ACCAUNT) {
             inputCode.setDisable(false);
             inputFirstName.setDisable(false);
@@ -126,11 +157,14 @@ public class LibraryAppController extends SessionHibernate {
             inputCopies.setDisable(false);
             inputPublisher.setDisable(false);
             estado = States.ADDBOOK;
-
         }
     }
 
-    public void bookFields() {
+    /**
+     * Books click.
+     * This method is for the button book
+     */
+    public void booksClick() {
         registrationBooks.setVisible(true);
         RegistrationPane.setVisible(false);
         borowPane.setVisible(false);
@@ -141,15 +175,17 @@ public class LibraryAppController extends SessionHibernate {
         inputCopies.setDisable(true);
         inputPublisher.setDisable(true);
         inputIsbn.setDisable(true);
-        clearBookFields();
+        inputIsbn.setText("");
+        inputCopies.setValue(1);
+        inputTitle.setText("");
+        inputPublisher.setText("");
         estado = States.BOOK;
-
     }
 
-    public void booksClick() {
-        bookFields();
-    }
-
+    /**
+     * Return book click.
+     * Method for return book button
+     */
     public void returnBookClick() {
         registrationBooks.setVisible(false);
         RegistrationPane.setVisible(false);
@@ -164,10 +200,17 @@ public class LibraryAppController extends SessionHibernate {
         userCodeBorrow.setDisable(true);
         isbnCodeBorrow.setDisable(true);
         isbnName.setDisable(true);
-
+        isbnCodeBorrow.setText("");
+        isbnName.setText("");
+        userCodeBorrow.setText("");
+        nameFromChoiceBox.setText("");
         estado = States.RETURNBOOK;
     }
 
+    /**
+     * Borrow book click.
+     * Method for borrow book button
+     */
     public void borrowBookClick() {
         registrationBooks.setVisible(false);
         RegistrationPane.setVisible(false);
@@ -181,35 +224,49 @@ public class LibraryAppController extends SessionHibernate {
         nameFromChoiceBox.setDisable(false);
         userCodeBorrow.setDisable(true);
         isbnCodeBorrow.setDisable(true);
-
+        isbnCodeBorrow.setText("");
+        isbnName.setText("");
+        userCodeBorrow.setText("");
+        nameFromChoiceBox.setText("");
         estado = States.BORROWBOOK;
     }
 
+    /**
+     * Modify click.
+     * Method for button modify
+     */
     public void modifyClick() {
         if (estado == States.ACCAUNT) {
-            confirmModiifPane.setVisible(false);
-            confirmDeletPane.setVisible(true);
-            inputFirstName.setDisable(false);
-            inputLastName.setDisable(false);
-            inputBirthday.setDisable(false);
-            inputCode.setDisable(true);
-            estado = States.MODIFYUSER;
+            if(!inputCode.getText().isEmpty() || !inputCode.getText().isBlank()){
+                confirmModiifPane.setVisible(false);
+                confirmDeletPane.setVisible(true);
+                inputFirstName.setDisable(false);
+                inputLastName.setDisable(false);
+                inputBirthday.setDisable(false);
+                inputCode.setDisable(true);
+                estado = States.MODIFYUSER;
+            }
         }
         if (estado == States.BOOK) {
-            confirmModiifPane.setVisible(false);
-            confirmDeletPane.setVisible(true);
-            inputIsbn.setDisable(true);
-            inputCopies.setDisable(false);
-            inputPublisher.setDisable(false);
-            inputTitle.setDisable(false);
-            estado = States.MODIFYBOOK;
+            if(!inputIsbn.getText().isEmpty()|| !inputIsbn.getText().isBlank()){
+                confirmModiifPane.setVisible(false);
+                confirmDeletPane.setVisible(true);
+                inputIsbn.setDisable(true);
+                inputCopies.setDisable(false);
+                inputPublisher.setDisable(false);
+                inputTitle.setDisable(false);
+                estado = States.MODIFYBOOK;
+            }
         }
     }
 
+    /**
+     * Method for button submit. That is for two tabs.Here we see in what state we are
+     */
     public void submit() {
         if (estado == States.ADDUSER) {
             addUser();
-            clearFieldAccaunt();
+            accauntClick();
             panelsDown();
             estado = States.ACCAUNT;
         }
@@ -218,14 +275,12 @@ public class LibraryAppController extends SessionHibernate {
             panelsDown();
             estado = States.ACCAUNT;
         }
-
         if (estado == States.MODIFYUSER) {
             updateUser();
 
             panelsDown();
             estado = States.ACCAUNT;
         }
-
         if (estado == States.ADDBOOK) {
             addBook();
             panelsDown();
@@ -236,7 +291,6 @@ public class LibraryAppController extends SessionHibernate {
             panelsDown();
             estado = States.BOOK;
         }
-
         if (estado == States.MODIFYBOOK) {
             updateBook();
             panelsDown();
@@ -244,79 +298,91 @@ public class LibraryAppController extends SessionHibernate {
         }
 
         if (estado == States.BORROWBOOK) {
-
-
+            long now = System.currentTimeMillis();
+            Date sqlDate = new Date(now);
             if (isbnName.getText().isEmpty() || nameFromChoiceBox.getText().isEmpty()) {
                 AlterDialogError("FAILED", "Some fields are empty");
-            } else if (connection.countBook(userCodeBorrow.getText())) {
+            }else if(isbnCodeBorrow.getText().isEmpty() || isbnCodeBorrow.getText().isEmpty()){
+                AlterDialogError("Error", "First you need to choose user and book");
+            }
+            else if (connection.countBook(userCodeBorrow.getText())) {
                 AlterDialogError("ERROR", "This user has already 3 books");
-            } else {
-                if (connection.bookIsAvailable(codeBook(isbnName.getText()))) {
+            } else if (connection.sameBook(userCodeBorrow.getText(), isbnCodeBorrow.getText())) {
+                AlterDialogError("ERROR", "The user had allredy this book");
+            }else {
+                try {
+                    if(connection.ifUserIsFined(userCodeBorrow.getText(), sqlDate)){
+                        AlterDialogError("ERROR", "The user is fined! He can't borrow the book");
+                    }
+                    else if(connection.bookIsAvailable(connection.getBookByName(isbnName.getText()))) {
 
-                    try {
                         LendingJPAEntity lending = new LendingJPAEntity();
                         lending.setBorrower(userCodeBorrow.getText());
                         lending.setBook(isbnCodeBorrow.getText());
-                        long now = System.currentTimeMillis();
-                        Date sqlDate = new Date(now);
                         lending.setLendingdate(sqlDate);
-                        if (connection.insertLending(lending, isbnCodeBorrow.getText())) {
+                        if (connection.insertLending(lending)) {
                             AlterDialogConfirmation("Enjoy this book", "You have one month!");
                         }
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                    }else if (!connection.bookIsAvailable(isbnName.getText())) {
+
+                        ReservationJPAEntityFinal reservation = new ReservationJPAEntityFinal();
+                        reservation.setBorrower(userCodeBorrow.getText());
+                        reservation.setBook(isbnCodeBorrow.getText());
+                        reservation.setDate(sqlDate);
+                        alterDialogReservation(reservation);
+                    } else {
+                        AlterDialogError("Error", "Book or user dont exist, you need to select the user and the book! ");
                     }
-                } else {
-                    alterDialogReservation();
+                } catch (Exception e) {
+                    AlterDialogError("Some ERROR", e.getCause().getMessage());
                 }
             }
 
-
+            borrowBookClick();
         }
         if (estado == States.RETURNBOOK) {
-            LendingJPAEntity lending = new LendingJPAEntity();
-            lending.setBorrower(userCodeBorrow.getText());
-            lending.setBook(isbnCodeBorrow.getText());
-            long now = System.currentTimeMillis();
-            Date sqlDate = new Date(now);
-            lending.setReturningdate(sqlDate);
-            Date date = connection.getLendingdate(userCodeBorrow.getText());
-            lending.setLendingdate(date);
-            connection.updatingLending(lending);
-            AlterDialogConfirmation("DONE!", "Book are returned");
+            if (isbnName.getText().isEmpty() || nameFromChoiceBox.getText().isEmpty()) {
+                AlterDialogError("FAILED", "Some fields are empty");
+
+            }
+            else{
+                returnBook();
+
+            }
+            returnBookClick();
+
         }
     }
 
+    /**
+     * Add user.
+     * Method for adding user
+     */
     public void addUser() {
 
         String code = inputCode.getText();
         String firstName = inputFirstName.getText();
         String lastName = inputLastName.getText();
-        long now = System.currentTimeMillis();
-        Date sqlDate = new Date(now);
         Date date = null;
         String regName = "^[a-zA-Z]*$";
         try {
             date = Date.valueOf(inputBirthday.getValue());
 
         } catch (Exception e) {
-
+            AlterDialogError("Error", e.getCause().getMessage());
         }
         if (code.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || code.isBlank() || firstName.isBlank() || lastName.isBlank() || date == null) {
             AlterDialogError("Insert failed", "Some fields are empty");
-
         } else if (firstName.length() > 25) {
             AlterDialogError("Error", "Name can't be mote than 25 characters");
         } else if (!firstName.matches(regName) || !lastName.matches(regName)) {
             AlterDialogError("Error", "Only characters");
         } else if (code.length() > 8) {
             AlterDialogError("Error", "The code can't be more than 13 characters");
-
         } else if (date.toLocalDate().isAfter(LocalDate.now())) {
             AlterDialogError("Error", "The date can't be after than today ");
         } else if (connection.userExists(code)) {
             AlterDialogError("Insert failed", "User exists");
-
         } else if (!code.isEmpty() && !firstName.isEmpty() && !lastName.isEmpty() && !code.isBlank() && !firstName.isBlank() && !lastName.isBlank() && !connection.userExists(code) && date != null) {
             UsersJPAEntity user = new UsersJPAEntity();
             user.setCode(code);
@@ -326,38 +392,61 @@ public class LibraryAppController extends SessionHibernate {
             try {
                 connection.insertUser(user);
                 AlterDialogConfirmation("User registered", "DONE!");
-                clearFieldAccaunt();
-                accauntFields();
             } catch (Exception e) {
                 AlterDialogError("Error", e.getMessage());
             }
-
-        } else {
-            accauntFields();
         }
-        accauntFields();
-
-
+        accauntClick();
     }
 
+    /**
+     * Method for returning boobs
+     */
+    public void returnBook(){
+        LendingJPAEntity lending = new LendingJPAEntity();
+        lending.setBorrower(userCodeBorrow.getText());
+        lending.setBook(isbnCodeBorrow.getText());
+        long now = System.currentTimeMillis();
+        Date sqlDate = new Date(now);
+        lending.setReturningdate(sqlDate);
+        Date dateLending = connection.getLendingdate(userCodeBorrow.getText());
+        lending.setLendingdate(dateLending);
+        connection.updatingLending(lending);
+        LocalDate dateReturning = lending.getReturningdate().toLocalDate();
+        LocalDate maxDateReturn = dateLending.toLocalDate().plusDays(30);
+        if(dateReturning.isAfter(maxDateReturn)){
+            AlterDialogError("ATTENTION", "The user extends the returning date, he can't borrow books in 15 days");
+        }
+        AlterDialogConfirmation("DONE!", "Book are returned");
+        String code = api.getRequest(isbnCodeBorrow.getText());
+        if(code != null){
+            try {
+                UsersJPAEntity user = connection.getUserById(code);
+                String name = user.getName();
+
+                AlterDialogConfirmation("This book has reservation", "Wold you like to send an e-mail to " + name + " ?");
+            } catch (Exception e) {
+               AlterDialogError("Error", e.getCause().getMessage());
+            }
+
+        }
+    }
+
+
+    /**
+     * Method for adding books
+     */
     public void addBook() {
         String isbn = inputIsbn.getText();
         String title = inputTitle.getText();
         String publisher = inputPublisher.getText();
         int copies = (int) inputCopies.getValue();
-
         if (isbn.isEmpty() || title.isEmpty() || publisher.isEmpty() || isbn.isBlank() || title.isBlank() || publisher.isBlank()) {
             AlterDialogError("Insert failed", "Some fields are empty");
-            bookFields();
-            clearBookFields();
-
         } else if (connection.bookExists(isbn)) {
             AlterDialogError("Insert failed", "Book exists");
-            bookFields();
-            clearBookFields();
         } else if (title.length() > 90) {
             AlterDialogError("Error", "Title can't be more than 90 characters");
-
         } else if (isbn.length() > 13) {
             AlterDialogError("Error", "ISBN can't be more than 13 character");
         } else if (publisher.length() > 60) {
@@ -373,25 +462,22 @@ public class LibraryAppController extends SessionHibernate {
             try {
                 connection.insertBook(book);
                 AlterDialogConfirmation("Book registered", "DONE!");
-                bookFields();
-                clearBookFields();
+                booksClick();
             } catch (Exception e) {
                 AlterDialogError("Error", e.getMessage());
-                bookFields();
-                clearBookFields();
-            }
-
+                           }
         }
-        bookFields();
-        clearBookFields();
+       booksClick();
 
     }
 
+    /**
+     * Method for updating users
+     */
     public void updateUser() {
         String code = inputCode.getText();
         String firstName = inputFirstName.getText();
         String lastName = inputLastName.getText();
-        long now = System.currentTimeMillis();
         String regName = "^[a-zA-Z]*$";
         Date date = null;
         try {
@@ -409,7 +495,6 @@ public class LibraryAppController extends SessionHibernate {
             AlterDialogError("Error", "Name can't be mote than 25 characters");
         } else if (code.length() > 8) {
             AlterDialogError("Error", "The code can't be more than 13 characters");
-
         } else if (!firstName.matches(regName) || !lastName.matches(regName)) {
             AlterDialogError("Error", "Only characters");
         } else if (date.toLocalDate().isAfter(LocalDate.now())) {
@@ -429,10 +514,12 @@ public class LibraryAppController extends SessionHibernate {
                 AlterDialogError("Error", e.getCause().getCause().getMessage());
             }
         }
-        accauntFields();
-        clearFieldAccaunt();
+        accauntClick();
     }
 
+    /**
+     * Method for updating books
+     */
     public void updateBook() {
         String isbn = inputIsbn.getText();
         String title = inputTitle.getText();
@@ -442,7 +529,6 @@ public class LibraryAppController extends SessionHibernate {
             AlterDialogError("Error", "Some fields are empty");
         } else if (title.length() > 90) {
             AlterDialogError("Error", "Title can't be more than 90 characters");
-
         } else if (isbn.length() > 13) {
             AlterDialogError("Error", "ISBN can't be more than 13 character");
         } else if (publisher.length() > 60) {
@@ -463,76 +549,77 @@ public class LibraryAppController extends SessionHibernate {
 
             }
         }
-        bookFields();
-        clearBookFields();
-
+        booksClick();
     }
 
+    /**
+     * Search user.
+     * Method for searching user
+     */
     public void searchUser() {
-
         UsersJPAEntity user;
         String code = inputCode.getText();
         if (code.isEmpty() || code.isBlank()) {
             AlterDialogError("Error", "User code can't be empty");
-            clearFieldAccaunt();
-            accauntFields();
+            accauntClick();
         } else {
             try {
                 user = connection.getUserById(code);
                 if (user == null) {
                     AlterDialogError("Error", "User don't exists");
-                    clearFieldAccaunt();
-                    accauntFields();
+                   accauntClick();
                 } else {
                     inputFirstName.setText(user.getName());
                     inputLastName.setText(user.getSurname());
                     inputBirthday.setValue(LocalDate.parse(user.getBirthdate().toString()));
-
                 }
-
             } catch (Exception e) {
                 AlterDialogError("Error", e.getMessage());
             }
-
         }
-
     }
 
+    /**
+     * Search book.
+     * Method for searching books
+     */
     public void searchBook() {
         BooksJPAEntity book;
         String isbn = inputIsbn.getText();
         if (isbn.isEmpty() || isbn.isBlank()) {
             AlterDialogError("Error", "ISBN can't be empty");
-            bookFields();
+            booksClick();
         } else {
             try {
                 book = connection.getBookById(isbn);
                 if (book == null) {
                     AlterDialogError("Error", "Book don't exists");
-                    bookFields();
+                    booksClick();
                 } else {
                     inputIsbn.setText(book.getIsbn());
                     inputTitle.setText(book.getTitle());
                     inputCopies.setValue(book.getCopies());
                     inputPublisher.setText(book.getPublisher());
-
-
                 }
             } catch (Exception e) {
                 AlterDialogError("Error", e.getMessage());
             }
-
         }
-
-
     }
 
+    /**
+     * Panels down.
+     * For up and down panel
+     */
     public void panelsDown() {
 
         confirmDeletPane.setVisible(false);
         confirmModiifPane.setVisible(true);
     }
 
+    /**
+     * Method for searching button, the functionality depends on the States
+     */
     public void searchClick() {
         if (estado == States.ACCAUNT) {
             confirmModiifPane.setVisible(false);
@@ -546,25 +633,29 @@ public class LibraryAppController extends SessionHibernate {
             inputIsbn.setDisable(false);
             estado = States.SEARCHBOOK;
         }
-
-
     }
 
+    /**
+     * Method for return button
+     */
     public void returnClick() {
         switch (estado) {
-            case ACCAUNT -> accauntFields();
-            case BOOK -> bookFields();
-            case SEARCHBOOK -> bookFields();
-            case SEARCHUSER -> accauntFields();
-            case MODIFYUSER -> accauntFields();
-            case MODIFYBOOK -> bookFields();
-            case ADDUSER -> accauntFields();
-            case ADDBOOK -> bookFields();
-
+            case ACCAUNT -> accauntClick();
+            case BOOK -> booksClick();
+            case SEARCHBOOK -> booksClick();
+            case SEARCHUSER -> accauntClick();
+            case MODIFYUSER -> accauntClick();
+            case MODIFYBOOK -> booksClick();
+            case ADDUSER -> accauntClick();
+            case ADDBOOK -> booksClick();
+            case BORROWBOOK -> borrowBookClick();
+            case RETURNBOOK -> returnBookClick();
         }
-
     }
 
+    /**
+     * Method for searching user for fill the choice box in panel return and borrow
+     */
     public void searchUserBorrow() {
         if (estado == States.RETURNBOOK) {
             listOfUsers();
@@ -574,6 +665,10 @@ public class LibraryAppController extends SessionHibernate {
         }
     }
 
+    /**
+     * Method for fill choice box with books. In borrow panel wi will have all books
+     * and in return books only books that have the user atb the moment
+     */
     public void searchNameBook() {
         if (estado == States.RETURNBOOK) {
             listOfBook(userCodeBorrow.getText());
@@ -582,55 +677,84 @@ public class LibraryAppController extends SessionHibernate {
             String name = isbnName.getText();
             List<String> choices = new ArrayList<>();
             booksList = connection.listOfBooks(name);
-            for (BooksJPAEntity book : booksList) {
-                //isbnChoiseBox.getItems().add(book.getTitle());
-                choices.add(book.getTitle());
+            if (booksList.size() > 0) {
+                for (BooksJPAEntity book : booksList) {
+                    choices.add(book.getTitle());
+                }
+                ChoiceDialog<String> dialog = new ChoiceDialog<>("Books", choices);
+                dialog.setTitle("Choice Book");
+                dialog.setHeaderText("List of Books");
+                dialog.setContentText("Choose your book:");
+                Optional<String> result = dialog.showAndWait();
+                if (result.isPresent()) {
+                    for(BooksJPAEntity book: booksList){
+                        if(book.getTitle().equals(result.get())){
+                            isbnName.setText(result.get());
+                            isbnCodeBorrow.setText(book.getIsbn());
+                            isbnName.setDisable(true);
+                        }
+                    }
+                }
+
+
+            }
+            else{
+                AlterDialogError("Error", "Couldn't found books");
+                borrowBookClick();
             }
 
+
+        }
+    }
+
+
+    /**
+     * List of book.
+     * Method that fill choice box with books that have the user in lendings
+     * @param name the name
+     */
+    public void listOfBook(String name) {
+        List<String> choices = new ArrayList<>();
+        lendinglist = connection.listOfLending(name);
+        BooksJPAEntity book = new BooksJPAEntity();
+        if(lendinglist.size() > 0){
+            for (LendingJPAEntity lending : lendinglist) {
+                booksList = connection.listOfBooks(lending.getBook());
+                try {
+                    book = connection.getBookById(lending.getBook());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                choices.add(book.getTitle());
+            }
             ChoiceDialog<String> dialog = new ChoiceDialog<>("Books", choices);
             dialog.setTitle("Choice Book");
             dialog.setHeaderText("List of Books");
             dialog.setContentText("Choose your book:");
-
-            // Traditional way to get the response value.
             Optional<String> result = dialog.showAndWait();
-            if (result.isPresent()) {
-                isbnName.setText(result.get());
-                isbnCodeBorrow.setText(codeBook(isbnName.getText()));
+
+           if (result.isPresent()) {
+                if(!result.get().equals("Books")){
+                    isbnName.setText(result.get());
+                    isbnCodeBorrow.setText(connection.getBookByName(isbnName.getText()));
+                }
             }
+
         }
+        else{
+            AlterDialogError("Error", "THIS USER DON'T HAVE BOOKS");
+            returnBookClick();
+
+        }
+
+
+
     }
 
-    public void listOfBook(String name) {
-
-        List<String> choices = new ArrayList<>();
-        lendinglist = connection.listOfLending(name);
-        BooksJPAEntity book = new BooksJPAEntity();
-        for (LendingJPAEntity lending : lendinglist) {
-            booksList = connection.listOfBooks(lending.getBook());
-            try {
-                book = connection.getBookById(lending.getBook());
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-            choices.add(book.getTitle());
-        }
-
-        ChoiceDialog<String> dialog = new ChoiceDialog<>("Books", choices);
-        dialog.setTitle("Choice Book");
-        dialog.setHeaderText("List of Books");
-        dialog.setContentText("Choose your book:");
-
-        // Traditional way to get the response value.
-        Optional<String> result = dialog.showAndWait();
-
-        if (result.isPresent()) {
-            isbnName.setText(result.get());
-            isbnCodeBorrow.setText(connection.getBookByName(isbnName.getText()));
-
-        }
-    }
-
+    /**
+     * List of users.
+     * Method that fill choice box with all users
+     */
     public void listOfUsers() {
         String name = nameFromChoiceBox.getText();
         List<String> choices = new ArrayList<>();
@@ -638,37 +762,48 @@ public class LibraryAppController extends SessionHibernate {
         if (users.size() > 0) {
             for (UsersJPAEntity user : users) {
                 choices.add(user.getName() + " " + user.getSurname());
-
             }
             ChoiceDialog<String> dialog = new ChoiceDialog<>("Users", choices);
             dialog.setTitle("List of Users");
             dialog.setHeaderText("List of Users");
             dialog.setContentText("Choose user:");
-
-            // Traditional way to get the response value.
             Optional<String> result = dialog.showAndWait();
             if (result.isPresent()) {
-                nameFromChoiceBox.setText(result.get());
-                userCodeBorrow.setText(codeUser(nameFromChoiceBox.getText()));
-
+                if(!result.get().equals("Users"))  {
+                    nameFromChoiceBox.setText(result.get());
+                    for(UsersJPAEntity user: users){
+                        if((user.getName() + " " + user.getSurname()).equals(result.get())){
+                            userCodeBorrow.setText(user.getCode());
+                            nameFromChoiceBox.setDisable(true);
+                        }
+                    }
+                }
             }
-
         } else {
             AlterDialogError("Error", "User don't found");
         }
-
     }
 
+    /**
+     * Alter dialog error.
+     * Error window     *
+     * @param canntDoIt the cannt do it
+     * @param why       the why
+     */
     public void AlterDialogError(String canntDoIt, String why) {
         Alert alert = new Alert(Alert.AlertType.ERROR);
-
         alert.setTitle("Error alert");
         alert.setHeaderText(canntDoIt);
         alert.setContentText(why);
         alert.showAndWait();
     }
 
-    public void alterDialogReservation() {
+    /**
+     * Alter dialog reservation.
+     * Window for make reservation
+     * @param reservation the reservation
+     */
+    public void alterDialogReservation(ReservationJPAEntityFinal reservation) {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
         alert.setTitle("Book Reservation");
         alert.setHeaderText("This book is not available now");
@@ -676,12 +811,18 @@ public class LibraryAppController extends SessionHibernate {
 
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
-            // ... user chose OK
+            api.postRequest(reservation);
         } else {
             // ... user chose CANCEL or closed the dialog
         }
     }
 
+    /**
+     * Alter dialog confirmation.
+     * Confirmation window
+     * @param what    the what
+     * @param success the success
+     */
     public void AlterDialogConfirmation(String what, String success) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Confirmation");
@@ -690,45 +831,10 @@ public class LibraryAppController extends SessionHibernate {
         alert.showAndWait();
     }
 
-    public String codeUser(String name) {
 
-        String[] nameS = name.split(" ");
-        String firstName = nameS[0];
-        String lastName = nameS[1];
-        String code = null;
-        for (UsersJPAEntity user : users) {
-            if (user.getName().equals(firstName) && user.getSurname().equals(lastName)) {
-                code = user.getCode();
-            }
-        }
-        return code;
-    }
-
-    public String codeBook(String name) {
-
-        String code = null;
-        for (BooksJPAEntity book : booksList) {
-            if (book.getTitle().equals(name)) {
-                code = book.getIsbn();
-            }
-        }
-        return code;
-    }
-
-    public void clearFieldAccaunt() {
-        inputCode.setText("");
-        inputBirthday.setValue(null);
-        inputFirstName.setText("");
-        inputLastName.setText("");
-    }
-
-    public void clearBookFields() {
-        inputIsbn.setText("");
-        inputCopies.setValue(1);
-        inputTitle.setText("");
-        inputPublisher.setText("");
-    }
-
+    /**
+     * Exit click.
+     */
     public void exitClick() {
         Platform.exit();
     }

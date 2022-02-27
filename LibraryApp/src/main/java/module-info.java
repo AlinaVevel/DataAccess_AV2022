@@ -7,6 +7,7 @@ module com.alinavevel.libraryapp {
     requires java.naming;
     requires jdk.unsupported;
     requires org.jboss.logging;
+    requires android.json;
 
 
     opens com.alinavevel.libraryapp to javafx.fxml;

@@ -84,7 +84,7 @@
                 <TextField fx:id="inputCode" disable="true" GridPane.columnIndex="1" />
                 <TextField fx:id="inputFirstName" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                 <TextField fx:id="inputLastName" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                <DatePicker fx:id="inputBirthday" disable="true" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                <DatePicker fx:id="inputBirthday" disable="true" editable="false" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                 <Label text="First name:" GridPane.halignment="LEFT" GridPane.rowIndex="1">
                     <font>
                         <Font size="16.0" />
