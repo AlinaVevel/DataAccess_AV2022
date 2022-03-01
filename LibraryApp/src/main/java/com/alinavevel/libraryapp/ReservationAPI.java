@@ -56,6 +56,70 @@ public class ReservationAPI {
         return code;
     }
 
+    public boolean getRequestUser(String codeUser){
+        HttpURLConnection conn = null;
+
+        try {
+            URL url = new URL("http://localhost:8080/api-rest-av2022/reservation");
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("Accept", "application/json");
+            if (conn.getResponseCode() == 200) {
+                Scanner scanner = new Scanner(conn.getInputStream());
+                String response = scanner.useDelimiter("\\Z").next();
+                scanner.close();
+                JSONArray jsonArray = new JSONArray(response);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                    if(jsonObject.get("borrower").equals(codeUser)){
+                        return true;
+                    }
+                }
+            }
+
+        }
+        catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+        finally {
+            if (conn != null)
+                conn.disconnect();
+        }
+
+        return false;
+    }
+
+    public boolean getRequestBook(String codeUser){
+        HttpURLConnection conn = null;
+
+        try {
+            URL url = new URL("http://localhost:8080/api-rest-av2022/reservation");
+            conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestProperty("Accept", "application/json");
+            if (conn.getResponseCode() == 200) {
+                Scanner scanner = new Scanner(conn.getInputStream());
+                String response = scanner.useDelimiter("\\Z").next();
+                scanner.close();
+                JSONArray jsonArray = new JSONArray(response);
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    JSONObject jsonObject = (JSONObject) jsonArray.get(i);
+                    if(jsonObject.get("book").equals(codeUser)){
+                        return true;
+                    }
+                }
+            }
+
+        }
+        catch(Exception e) {
+            System.out.println(e.getMessage());
+        }
+        finally {
+            if (conn != null)
+                conn.disconnect();
+        }
+
+        return false;
+    }
+
 
     /**
      * Post request.
@@ -101,7 +165,7 @@ public class ReservationAPI {
     public void deleteRequest(String id){
         HttpURLConnection conn = null;
         try {
-            URL url = new URL(" http://localhost:8080/api-rest-av2022/reservation/{idreservation}" + id);
+            URL url = new URL(" http://localhost:8080/api-rest-av2022/books/{idreservation}" + id);
             conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("DELETE");
             if (conn.getResponseCode() == 200)

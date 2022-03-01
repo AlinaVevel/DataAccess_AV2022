@@ -259,6 +259,50 @@ public class SessionHibernate {
         return false;
     }
 
+    public boolean userHasPendingBooks(String code) {
+        Session session = null;
+        int sum = 0;
+        try {
+            session = openSession();
+            Query<LendingJPAEntity> myQuery =
+                    session.createQuery("from com.alinavevel.libraryapp.LendingJPAEntity");
+            List<LendingJPAEntity> count = myQuery.list();
+            for (Object userObject : count) {
+                LendingJPAEntity user = (LendingJPAEntity) userObject;
+                if (user.getBorrower().equals(code) && user.getReturningdate() == null) {
+                    return true;
+                }
+            }
+
+
+        } catch (Exception e) {
+
+        }
+        return false;
+    }
+
+    public boolean bookIsPendingToReturn(String code) {
+        Session session = null;
+        int sum = 0;
+        try {
+            session = openSession();
+            Query<LendingJPAEntity> myQuery =
+                    session.createQuery("from com.alinavevel.libraryapp.LendingJPAEntity");
+            List<LendingJPAEntity> count = myQuery.list();
+            for (Object userObject : count) {
+                LendingJPAEntity user = (LendingJPAEntity) userObject;
+                if (user.getBook().equals(code) && user.getReturningdate() == null) {
+                    return true;
+                }
+            }
+
+
+        } catch (Exception e) {
+
+        }
+        return false;
+    }
+
     /**
      * Gets book by id.
      *
@@ -650,5 +694,26 @@ public class SessionHibernate {
         }
         return result;
     }
+
+
+    public void deleteUser( String userCode ) {
+        try ( Session session = openSession() ) {
+            Query<UsersJPAEntity> myQuery =
+                    session.createQuery("from com.alinavevel.libraryapp. " +
+                            "UsersJPAEntity where code='"
+                            + userCode + "'");
+            List<UsersJPAEntity> users = myQuery.list();
+            if ( users.size() > 0 ) {
+                Transaction transaction = session.beginTransaction();
+                session.delete(users.get(0));
+                transaction.commit(); // End of transaction
+            }
+
+        }
+        catch( Exception e ) {
+            System.out.println( e.getMessage() );
+        }
+    }
+
 
 }

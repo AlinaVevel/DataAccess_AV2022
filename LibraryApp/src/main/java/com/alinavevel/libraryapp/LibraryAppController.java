@@ -40,6 +40,8 @@ public class LibraryAppController extends SessionHibernate {
      */
     ReservationAPI api = new ReservationAPI();
 
+    BookAPI apiBook = new BookAPI();
+
     //region fxml
     @FXML
     private GridPane RegistrationPane;
@@ -653,6 +655,34 @@ public class LibraryAppController extends SessionHibernate {
         }
     }
 
+    public void deleteClick(){
+        if(estado == States.ACCAUNT){
+            alterDialogDeleting();
+
+        }
+        if(estado == States.BOOK){
+            alterDeleteBook();
+        }
+    }
+
+    public void deleting(){
+        if(inputCode.getText().isEmpty() || inputCode.getText().isBlank()){
+            AlterDialogError("Error", "You need to search the user first");
+        }
+        else{
+            connection.deleteUser(inputCode.getText());
+        }
+    }
+
+    public void deletingBook(){
+        if(inputIsbn.getText().isEmpty() || inputIsbn.getText().isBlank()){
+            AlterDialogError("Error", "You need to search the book first");
+        }
+        else{
+            apiBook.DeleteRequest(inputIsbn.getText());
+        }
+    }
+
     /**
      * Method for searching user for fill the choice box in panel return and borrow
      */
@@ -706,6 +736,8 @@ public class LibraryAppController extends SessionHibernate {
 
         }
     }
+
+
 
 
     /**
@@ -812,6 +844,52 @@ public class LibraryAppController extends SessionHibernate {
         Optional<ButtonType> result = alert.showAndWait();
         if (result.get() == ButtonType.OK) {
             api.postRequest(reservation);
+        } else {
+            // ... user chose CANCEL or closed the dialog
+        }
+    }
+
+    public void alterDeleteBook() {
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Deleting book");
+        alert.setHeaderText("Deleting book from app");
+        alert.setContentText("Would you like to delete this book?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            if(connection.bookIsPendingToReturn(inputIsbn.getText()) || api.getRequestBook(inputIsbn.getText())){
+                AlterDialogError("ERROR", "This book has pending returning or has reservation!");
+                booksClick();
+            }
+            else{
+                deletingBook();
+                AlterDialogConfirmation("DONE", "Book deleted!");
+                booksClick();
+
+            }
+
+        } else {
+            // ... user chose CANCEL or closed the dialog
+        }
+    }
+
+    public void alterDialogDeleting(){
+        Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+        alert.setTitle("Delete User");
+        alert.setHeaderText("Deleting user from App");
+        alert.setContentText("Would you like to delete this user?");
+
+        Optional<ButtonType> result = alert.showAndWait();
+        if (result.get() == ButtonType.OK) {
+            if(connection.userHasPendingBooks(inputCode.getText()) || api.getRequestUser(inputCode.getText())){
+                AlterDialogError("ERROR", "This user has pending books or reservation!");
+                accauntClick();
+            }
+            else{
+                deleting();
+                AlterDialogConfirmation("DONE", "User deleted!");
+                accauntClick();
+            }
         } else {
             // ... user chose CANCEL or closed the dialog
         }
